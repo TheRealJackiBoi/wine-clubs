@@ -1,0 +1,91 @@
+name: Deploy to staging (Cloud)
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+      - 'cloud/**'
+      - 'backend/**'
+    branches:
+      - staging
+
+# These are the only values that should be changed between staging and production
+env:
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY_STAGING }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_STAGING }}
+  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET_STAGING }}
+  POSTMARK_API_KEY: to-be-added #${{ secrets.POSTMARK_API_KEY_STAGING }}
+
+  # Backend variables
+  GCP_PROJECT_ID: platform-template-staging-7kls
+  BACKEND_URL: https://backend-rw5ejt5q5q-ew.a.run.app
+  PROJECT_NAME: platform-template-staging
+  CLIENT_URL: http://localhost:3000
+
+jobs:
+  update-cloud:
+    name: Update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Setup Google credentials
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          export_default_credentials: true
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          service_account_email: service-account@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+          service_account_key: ${{ env.GCP_SA_KEY }}
+      - name: Authorize Docker to push to Google Container Registry
+        run: printf 'y\n' | gcloud auth configure-docker
+
+      # Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          install: true
+
+      # Build image
+      - name: Build base image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./backend/Dockerfile
+          push: false
+          cache-from: |
+            type=gha,scope=base
+          cache-to: |
+            type=gha,scope=base,mode=max
+          target: base
+
+      - name: Build production image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./backend/Dockerfile
+          push: true
+          load: false
+          tags: eu.gcr.io/${{ env.GCP_PROJECT_ID }}/backend:${{ github.sha }}
+          cache-from: |
+            type=gha,scope=production
+            type=gha,scope=base
+          cache-to: |
+            type=gha,scope=production,mode=max
+          target: production
+
+      # Deploy the image to cloud run
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          image: eu.gcr.io/${{ env.GCP_PROJECT_ID }}/backend:${{ github.sha }}
+          service: backend
+          region: europe-west1
+          env_vars: |
+            POSTGRES_HOST=/cloudsql/${{ env.GCP_PROJECT_ID }}:europe-west1:cloudrun-sql
+            POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}
+            TOKEN_SECRET=${{ env.TOKEN_SECRET }}
+            POSTMARK_API_KEY=${{ env.POSTMARK_API_KEY }}
+            PROJECT_NAME=${{ env.PROJECT_NAME }}
+            CLIENT_URL=${{ env.CLIENT_URL }}
+          flags: --add-cloudsql-instances=${{ env.GCP_PROJECT_ID }}:europe-west1:cloudrun-sql --allow-unauthenticated

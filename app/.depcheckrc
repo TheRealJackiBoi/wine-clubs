@@ -1,0 +1,1 @@
+ignores: ['@storybook/*', 'storybook-*', 'babel-loader', 'autoprefixer', '@cypress/webpack-preprocessor', 'ts-loader', '@babel/core']
