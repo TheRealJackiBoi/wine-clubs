@@ -2,7 +2,6 @@
 
 import React, { FC } from 'react'
 import { useFormState } from 'react-dom'
-import { MdOutlineWarning } from 'react-icons/md'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Text, useToast } from '@chakra-ui/react'
