@@ -35,7 +35,7 @@ export async function createClub(
       },
     })
     console.log(club)
-    redirect('/clubs')
+    return 'success'
   } catch (error) {
     console.error('Failed to create club:', error)
     return 'Failed to create club.'
