@@ -8,16 +8,16 @@ import {
   Button,
   VStack,
   HStack,
-  Image,
   Spacer,
 } from '@chakra-ui/react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { MdLogin, MdLockPerson } from 'react-icons/md'
+import ClubCard from '@/components/common/club/ClubCard'
+import { colors } from '@/styles/theme'
 
 const brandRed = '#4c1c24'
 const brandGray = '#1a1a1a'
-const brandLightGray = '#2a2a2a'
 const brandWhite = '#E0E0E0'
 
 export const metadata: Metadata = {
@@ -83,7 +83,13 @@ const HomePage: FC = () => {
             Discover, create, and join wine tasting events with your friends and
             fellow enthusiasts.
           </Text>
-          <Button bg={brandRed} color={brandWhite} size='lg' rounded='full'>
+          <Button
+            bg={brandRed}
+            color={brandWhite}
+            _hover={{ bg: colors.brandRedDark }}
+            size='lg'
+            rounded='full'
+          >
             Explore Events
           </Button>
         </VStack>
@@ -94,51 +100,19 @@ const HomePage: FC = () => {
         <Heading as='h2' textAlign='center' color={brandWhite} mb={6}>
           Featured Clubs
         </Heading>
-        <HStack spacing={6} justify='center'>
-          <Box
-            bg={brandLightGray} // Dark grey for cards
-            p={6}
-            shadow='md'
-            borderRadius='md'
-            textAlign='center'
-            maxW='sm'
-            color={brandWhite}
-          >
-            <Image
-              src='app/public/winePlaceholder.png'
-              alt='Club 1'
-              borderRadius='md'
-              mb={4}
-            />
-            <Heading as='h3' size='md' mb={2} color={brandWhite}>
-              Wine Lovers Club
-            </Heading>
-            <Text>
-              Join this club for weekly wine tastings and social gatherings.
-            </Text>
-          </Box>
-          <Box
-            bg={brandLightGray}
-            p={6}
-            shadow='md'
-            borderRadius='md'
-            textAlign='center'
-            maxW='sm'
-            color={brandWhite}
-          >
-            <Image
-              src='app/public/winePlaceholder.png'
-              alt='Club 2'
-              borderRadius='md'
-              mb={4}
-            />
-            <Heading as='h3' size='md' mb={2} color={brandWhite}>
-              Vintage Wine Club
-            </Heading>
-            <Text>
-              Explore the world of vintage wines with this exclusive club.
-            </Text>
-          </Box>
+        <HStack spacing={6} justify='center' wrap='wrap'>
+          <ClubCard
+            imageSrc='/images/winePlaceholder.png'
+            altText='Club 1'
+            heading='Wine Lovers Club'
+            description='Join this club for weekly wine tastings and social gatherings.'
+          />
+          <ClubCard
+            imageSrc='/images/winePlaceholder.png'
+            altText='Club 2'
+            heading='Vintage Wine Club'
+            description='Explore the world of vintage wines with this exclusive club.'
+          />
         </HStack>
       </Box>
 
