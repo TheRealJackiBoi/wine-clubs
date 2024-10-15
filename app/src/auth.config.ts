@@ -12,10 +12,10 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const pathname = nextUrl.pathname
       const isLoggedIn = !!auth?.user
-      const isOnProtectedPage = nextUrl.pathname.startsWith('/protected-page')
+      const isOnProtectedPage = nextUrl.pathname.startsWith('/')
 
       if (isLoggedIn && pathname.startsWith('/login')) {
-        return Response.redirect(new URL('/protected-page', nextUrl))
+        return Response.redirect(new URL('/', nextUrl))
       }
 
       if (isOnProtectedPage) {
@@ -24,6 +24,18 @@ export const authConfig = {
       }
 
       return true
+    },
+    jwt({ token, user }) {
+      if (user) {
+        token.email = user.email
+      }
+      return token
+    },
+    session({ session, token }) {
+      if (session.user) {
+        session.user.email = token.email
+      }
+      return session
     },
   },
 } satisfies NextAuthConfig

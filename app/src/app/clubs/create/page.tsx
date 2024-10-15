@@ -8,20 +8,20 @@ import * as Yup from 'yup'
 import { Text } from '@chakra-ui/react'
 import Input from '@/components/formik/FormikInput'
 import Button from '@/components/formik/FormikButton'
-import { authenticate } from '@/lib/actions'
-import { Credentials } from '@/lib/definitions'
 import BackLink from '@/components/common/BackLink'
+import { ClubCreateFormInput } from '@/lib/definitions'
+import { createClub } from './actions'
 
-const LoginPage: FC = () => {
-  const [code, action] = useFormState(authenticate, undefined)
+const CreateClubPage: FC = () => {
+  const [code, action] = useFormState(createClub, undefined)
 
   return (
     <>
       <BackLink />
       <Text fontSize='2em' mb={4}>
-        Login
+        Create a WineClub
       </Text>
-      {code === 'CredentialsSignin' && (
+      {code && (
         <>
           <MdOutlineWarning style={{ display: 'inline-block' }} />
           <Text
@@ -36,34 +36,44 @@ const LoginPage: FC = () => {
       )}
       <Formik
         initialValues={{
+          name: '',
+          description: '',
+          imageurl: '',
           email: '',
-          password: '',
         }}
         validationSchema={Yup.object({
-          email: Yup.string().email('Invalid email').required('Required'),
-          password: Yup.string().required('Required'),
+          name: Yup.string().required('Required'),
+          description: Yup.string().required('Required'),
+          imageurl: Yup.string().required('Required'),
         })}
-        onSubmit={async (values: Credentials) => action(values)}
+        onSubmit={async (values: ClubCreateFormInput) => {
+          return action(values)
+        }}
       >
         <Form>
           <Input
-            label='E-mail'
-            placeholder='Input your e-mail'
-            name='email'
+            label='name'
+            placeholder='Name of your club'
+            name='name'
             required
           />
           <Input
-            type='password'
-            label='Password'
-            placeholder='Input your password'
-            name='password'
+            label='description'
+            placeholder='Description of your club'
+            name='description'
             required
           />
-          <Button>Login</Button>
+          <Input
+            label='imageurl'
+            placeholder='Image url of your club'
+            name='imageurl'
+            required
+          />
+          <Button>Create</Button>
         </Form>
       </Formik>
     </>
   )
 }
 
-export default LoginPage
+export default CreateClubPage

@@ -1,4 +1,3 @@
-import FetchAPI from '@/components/common/FetchAPI'
 import { Box, Flex, Divider, Text } from '@chakra-ui/react'
 import { Metadata } from 'next'
 import Link from 'next/link'
