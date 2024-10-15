@@ -22,8 +22,8 @@ const ClubCard: React.FC<ClubCardProps> = ({
       shadow='md'
       borderRadius='md'
       textAlign='center'
-      maxW={{ base: '100%', sm: '200px' }} // Responsive width
-      height='300px' // Fixed height for the cards
+      maxW={{ base: '100%', sm: '300px' }} // Responsive width
+      height='400px' // Fixed height for the cards
     >
       <Image
         src={imageSrc}
