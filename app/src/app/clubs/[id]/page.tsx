@@ -13,7 +13,7 @@ import {
   AvatarGroup,
   Avatar,
 } from '@chakra-ui/react'
-import { MdAdd, MdCalendarViewMonth, MdInfo } from 'react-icons/md'
+import { MdCalendarViewMonth, MdInfo } from 'react-icons/md'
 import prisma from '@/lib/prisma'
 import { notFound, redirect } from 'next/navigation'
 import { auth } from '@/auth'
@@ -122,7 +122,7 @@ export default async function ClubPage({ params }: Params) {
               {event.name}
             </Heading>
             <Text>
-              <MdCalendarViewMonth mr={2} />
+              <MdCalendarViewMonth />
               {new Date(event.date).toLocaleDateString()}
             </Text>
           </Box>
@@ -141,7 +141,7 @@ export default async function ClubPage({ params }: Params) {
               {event.name}
             </Heading>
             <Text>
-              <MdCalendarViewMonth mr={2} />
+              <MdCalendarViewMonth />
               {new Date(event.date).toLocaleDateString()}
             </Text>
           </Box>

@@ -27,15 +27,18 @@ const CreateEventModal = ({ clubId, hostId }: Props) => {
   const toast = useToast()
 
   const handleCreateEvent = async (values: {
-    eventName: string
-    eventDate: string
+    name: string
+    date: string
     description: string
+    location: string
   }) => {
     try {
+      console.log('before')
       const result = await axios.post<{ success: boolean; message: string }>(
         `/api/clubs/${clubId}/events`,
         { hostId, values },
       ) // Replace with actual API call to create event
+      console.log(result)
       const data = result.data
       if (data.success) {
         toast({
@@ -79,14 +82,14 @@ const CreateEventModal = ({ clubId, hostId }: Props) => {
           <ModalBody>
             <Formik
               initialValues={{
-                eventName: '',
-                eventDate: '',
+                name: '',
+                date: new Date().toISOString().slice(0, 16),
                 description: '',
                 location: '',
               }}
               validationSchema={Yup.object({
-                eventName: Yup.string().required('Event name is required'),
-                eventDate: Yup.date().required('Event date is required'),
+                name: Yup.string().required('Event name is required'),
+                date: Yup.date().required('Event date is required'),
                 description: Yup.string(),
                 location: Yup.string().min(4),
               })}
@@ -97,13 +100,13 @@ const CreateEventModal = ({ clubId, hostId }: Props) => {
                   <Input
                     label='Event Name'
                     placeholder='Enter event name'
-                    name='eventName'
+                    name='name'
                     required
                   />
                   <Input
-                    type='date'
+                    type='datetime-local'
                     label='Event Date'
-                    name='eventDate'
+                    name='date'
                     required
                   />
                   <Input
