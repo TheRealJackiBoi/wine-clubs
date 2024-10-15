@@ -148,3 +148,7 @@ yarn create:component ComponentName CategoryName
 - Make API testing work with Jest.
 - Make documentation, possible a script, about setting up Vercel.
 - Review and possible rewrite the convenience scripts
+
+# Color Palette:
+- #4c1c24 - Bordeaux red
+- #1a1a1a - Dark gray
