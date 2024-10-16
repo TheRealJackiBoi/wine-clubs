@@ -13,7 +13,7 @@ import {
   AvatarGroup,
   Avatar,
 } from '@chakra-ui/react'
-import { MdCalendarViewMonth, MdInfo } from 'react-icons/md'
+import { MdInfo } from 'react-icons/md'
 import prisma from '@/lib/prisma'
 import { notFound, redirect } from 'next/navigation'
 import { auth } from '@/auth'
@@ -21,6 +21,7 @@ import { Event } from '@prisma/client'
 import { DateTime } from 'luxon'
 import LeaveClubModal from '@/components/clubs/LeaveClubModal'
 import CreateEventModal from '@/components/clubs/CreateEventModal'
+import EventCard from '@/components/events/EventCard'
 
 type Params = {
   params: {
@@ -35,7 +36,11 @@ export default async function ClubPage({ params }: Params) {
     where: { id: id },
     include: {
       members: true,
-      events: true,
+      events: {
+        include: {
+          host: true,
+        },
+      },
     },
   })
 
@@ -110,22 +115,12 @@ export default async function ClubPage({ params }: Params) {
 
       <Divider my={8} />
 
-      <Divider my={8} />
-
       <Heading as='h2' size='xl' mb={4}>
         Upcoming Events
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
         {club.events.filter(findFutureEvents).map((event) => (
-          <Box key={event.id} borderWidth={1} borderRadius='md' p={4}>
-            <Heading as='h3' size='md'>
-              {event.name}
-            </Heading>
-            <Text>
-              <MdCalendarViewMonth />
-              {new Date(event.date).toLocaleDateString()}
-            </Text>
-          </Box>
+          <EventCard key={event.id} event={event} host={event.host} />
         ))}
       </SimpleGrid>
 
@@ -136,15 +131,7 @@ export default async function ClubPage({ params }: Params) {
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
         {club.events.filter(findPastEvents).map((event) => (
-          <Box key={event.id} borderWidth={1} borderRadius='md' p={4}>
-            <Heading as='h3' size='md'>
-              {event.name}
-            </Heading>
-            <Text>
-              <MdCalendarViewMonth />
-              {new Date(event.date).toLocaleDateString()}
-            </Text>
-          </Box>
+          <EventCard key={id} event={event} host={event.host} />
         ))}
       </SimpleGrid>
     </Box>
