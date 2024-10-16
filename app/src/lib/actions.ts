@@ -19,6 +19,31 @@ export async function authenticate(
   }
 }
 
+export const signup = async (
+  _prevState: string | undefined,
+  data: Credentials,
+) => {
+  try {
+    const user = await getUser(data.email!)
+    if (user) {
+      throw new Error('User already exists')
+    }
+    await prisma.user.create({
+      data: {
+        name: data.name!,
+        email: data.email!,
+        password: data.password!,
+        avatar: data.avatar,
+      },
+    })
+  } catch (error) {
+    if ((error as Error).message.includes('CredentialsSignup')) {
+      return 'CredentialsSignup'
+    }
+    throw error
+  }
+}
+
 export async function getUser(email: string): Promise<User | null> {
   try {
     return await prisma.user.findFirst({
