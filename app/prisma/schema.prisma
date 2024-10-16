@@ -43,7 +43,7 @@ model Tasting {
   event      Event     @relation(fields: [eventId], references: [id])
   eventId    String
   ratings    Rating[]
-  WineClub   WineClub @relation(fields: [wineClubId], references: [id])
+  wineClub   WineClub @relation(fields: [wineClubId], references: [id])
   wineClubId String
 }
 
