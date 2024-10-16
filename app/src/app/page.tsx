@@ -9,9 +9,9 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { Metadata } from 'next'
-import ClubCard from '@/components/common/club/ClubCard'
+import ClubCard from '@/components/clubs/ClubCard'
 import { colors } from '@/styles/theme'
-import Navbar from '@/components/common/navbar/Navbar'
+import Navbar from '@/components/navbar/Navbar'
 
 export const metadata: Metadata = {
   title: 'WineClubs',

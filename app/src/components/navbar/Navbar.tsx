@@ -1,10 +1,17 @@
 import { colors } from '@/styles/theme'
 import { Flex, Text, Heading, Spacer } from '@chakra-ui/react'
 import Link from 'next/link'
-import { MdAccountCircle, MdTapas } from 'react-icons/md'
+import { MdAccountCircle, MdExitToApp, MdTapas } from 'react-icons/md'
+
 const Navbar = () => {
-  //const session = auth()
-  //const isLoggedIn = session.user ? true : false
+  // const router = useRouter()
+
+  // const handleLogout = async () => {
+  //   await signOut()
+  //   router.push('/')
+  // }
+  const session = true
+
   return (
     <Flex
       bg={colors.brandGray}
@@ -18,26 +25,28 @@ const Navbar = () => {
       </Heading>
       <Spacer />
       <Flex alignItems='center'>
-        <Link href='/protected-page' passHref>
+        {session ? (
           <Flex
+            as='button'
             alignItems='center'
             mx={4}
             _hover={{ textDecoration: 'underline' }}
           >
-            <MdAccountCircle style={{ marginRight: '5px' }} />
-            <Text>Protected Page</Text>
+            <MdExitToApp style={{ marginRight: '5px' }} />
+            <Text>Log out</Text>
           </Flex>
-        </Link>
-        <Link href='/login' passHref>
-          <Flex
-            alignItems='center'
-            mx={4}
-            _hover={{ textDecoration: 'underline' }}
-          >
-            <MdAccountCircle style={{ marginRight: '5px' }} />
-            <Text>Login</Text>
-          </Flex>
-        </Link>
+        ) : (
+          <Link href='/login' passHref>
+            <Flex
+              alignItems='center'
+              mx={4}
+              _hover={{ textDecoration: 'underline' }}
+            >
+              <MdAccountCircle style={{ marginRight: '5px' }} />
+              <Text>Login</Text>
+            </Flex>
+          </Link>
+        )}
         <Link href='/clubs' passHref>
           <Flex
             alignItems='center'
