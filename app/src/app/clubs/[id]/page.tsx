@@ -120,7 +120,12 @@ export default async function ClubPage({ params }: Params) {
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
         {club.events.filter(findFutureEvents).map((event) => (
-          <EventCard key={event.id} event={event} host={event.host} />
+          <EventCard
+            key={event.id}
+            event={event}
+            host={event.host}
+            clubId={club.id}
+          />
         ))}
       </SimpleGrid>
 
@@ -131,7 +136,12 @@ export default async function ClubPage({ params }: Params) {
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
         {club.events.filter(findPastEvents).map((event) => (
-          <EventCard key={id} event={event} host={event.host} />
+          <EventCard
+            key={id}
+            event={event}
+            host={event.host}
+            clubId={club.id}
+          />
         ))}
       </SimpleGrid>
     </Box>
