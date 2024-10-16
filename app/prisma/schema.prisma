@@ -9,35 +9,62 @@ datasource db {
 }
 
 model WineClub {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          String    @id @default(uuid())
+  name        String    @unique
   description String
   image       String
-  clubOwner   User     @relation(name: "clubOwner", fields: [clubOwnerId], references: [id])
+  clubOwner   User      @relation(name: "clubOwner", fields: [clubOwnerId], references: [id])
   clubOwnerId String
-  members     User[]   @relation(name: "clubMembers")
-  createdAt   DateTime @default(now())
-  Wines       Wine[]
+  members     User[]    @relation(name: "clubMembers")
+  createdAt   DateTime  @default(now())
+  events      Event[]
+  tastings    Tasting[]
+}
+
+model Event {
+  id          String    @id @default(uuid())
+  name        String    
+  description String    @default("")
+  tastings    Tasting[]
+  signUps     User[]    @relation(name: "signUps")
+  date        DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  wineClub    WineClub  @relation(fields: [wineClubId], references: [id])
+  wineClubId  String
+  host        User      @relation(name: "eventHost", fields: [hostId], references: [id])
+  hostId      String
+  location    String
+}
+
+model Tasting {
+  id         String    @id @default(uuid())
+  wine       Wine      @relation(fields: [wineId], references: [id])
+  wineId     String
+  event      Event     @relation(fields: [eventId], references: [id])
+  eventId    String
+  ratings    Rating[]
+  wineClub   WineClub @relation(fields: [wineClubId], references: [id])
+  wineClubId String
 }
 
 model Wine {
-  id        String   @id @default(uuid())
-  name      String
+  id        String    @id @default(uuid())
+  name      String    @unique
   image     String
-  club      WineClub @relation(fields: [clubId], references: [id])
-  clubId    Int
-  createdAt DateTime @default(now())
-  ratings   Rating[]
+  createdAt DateTime  @default(now())
+  year      DateTime  @default(now())
+  Tasting   Tasting[]
 }
 
 model Rating {
   id        Int      @id @default(autoincrement())
-  wine      Wine     @relation(fields: [wineId], references: [id])
   wineId    String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   rating    Int
   createdAt DateTime @default(now())
+  Tasting   Tasting  @relation(fields: [tastingId], references: [id])
+  tastingId String
 }
 
 model User {
@@ -46,9 +73,12 @@ model User {
   email          String     @unique
   password       String
   role           Role       @default(MEMBER)
-  WineClubs      WineClub[] @relation("clubMembers")
-  OwnedWineClubs WineClub[] @relation("clubOwner")
+  avatar         String     @default("https://www.gravatar.com/avatar/0?d=mp")
+  wineClubs      WineClub[] @relation("clubMembers")
+  ownedWineClubs WineClub[] @relation("clubOwner")
   ratings        Rating[]
+  events         Event[]    @relation("signUps")
+  hostEvents     Event[]    @relation("eventHost")
 }
 
 enum Role {

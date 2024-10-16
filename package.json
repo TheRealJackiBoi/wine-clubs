@@ -5,7 +5,7 @@
   "scripts": {
     "start:dev": "concurrently --kill-others 'yarn start:app'",
     "start:dev:build": "concurrently --kill-others 'yarn start:app'",
-    "start:database": "docker-compose up",
+    "start:database": "docker compose up",
     "start:app": "yarn --cwd app start:dev",
     "prisma:studio": "yarn --cwd app prisma studio",
     "prisma:migrate": "yarn --cwd app prisma migrate dev",

@@ -6,8 +6,8 @@ import { MdOutlineWarning } from 'react-icons/md'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Text } from '@chakra-ui/react'
-import Input from '@/components/todo-list/formik/FormikInput'
-import Button from '@/components/todo-list/formik/FormikButton'
+import Input from '@/components/formik/FormikInput'
+import Button from '@/components/formik/FormikButton'
 import { authenticate } from '@/lib/actions'
 import { Credentials } from '@/lib/definitions'
 import BackLink from '@/components/common/BackLink'
@@ -40,7 +40,7 @@ const LoginPage: FC = () => {
           password: '',
         }}
         validationSchema={Yup.object({
-          email: Yup.string().required('Required'),
+          email: Yup.string().email('Invalid email').required('Required'),
           password: Yup.string().required('Required'),
         })}
         onSubmit={async (values: Credentials) => action(values)}
