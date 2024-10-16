@@ -4,12 +4,6 @@ import Link from 'next/link'
 import { MdAccountCircle, MdExitToApp, MdTapas } from 'react-icons/md'
 
 const Navbar = () => {
-  // const router = useRouter()
-
-  // const handleLogout = async () => {
-  //   await signOut()
-  //   router.push('/')
-  // }
   const session = true
 
   return (
