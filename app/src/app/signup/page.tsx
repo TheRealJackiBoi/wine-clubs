@@ -5,7 +5,8 @@ import { useFormState } from 'react-dom'
 import { MdOutlineWarning } from 'react-icons/md'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Text } from '@chakra-ui/react'
+import { Link, Text } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import Input from '@/components/formik/FormikInput'
 import Button from '@/components/formik/FormikButton'
 import { signup } from '@/lib/actions'
@@ -47,34 +48,42 @@ const SignupPage: FC = () => {
         })}
         onSubmit={async (values: Credentials) => action(values)}
       >
-        <Form>
-          <Input
-            label='Name'
-            placeholder='Input your name'
-            name='name'
-            required
-          />
-          <Input
-            label='E-mail'
-            placeholder='Input your e-mail'
-            name='email'
-            required
-          />
-          <Input
-            type='password'
-            label='Password'
-            placeholder='Input your password'
-            name='password'
-            required
-          />
-          <Input
-            label='Avatar URL (optional)'
-            placeholder='Input your avatar URL'
-            name='avatar'
-            //optional
-          />
-          <Button>Sign Up</Button>
-        </Form>
+        <>
+          <Form>
+            <Input
+              label='Name'
+              placeholder='Input your name'
+              name='name'
+              required
+            />
+            <Input
+              label='E-mail'
+              placeholder='Input your e-mail'
+              name='email'
+              required
+            />
+            <Input
+              type='password'
+              label='Password'
+              placeholder='Input your password'
+              name='password'
+              required
+            />
+            <Input
+              label='Avatar URL (optional)'
+              placeholder='Input your avatar URL'
+              name='avatar'
+              //optional
+            />
+            <Button>Sign Up</Button>
+          </Form>
+          <Text mt={4}>
+            Already have an account?{' '}
+            <Link as={NextLink} href='/login' color='blue.500'>
+              Login
+            </Link>
+          </Text>
+        </>
       </Formik>
     </>
   )

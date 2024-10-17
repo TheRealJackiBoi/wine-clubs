@@ -2,6 +2,7 @@
 
 import prisma from '@/lib/prisma'
 import { User } from '@prisma/client'
+import bcrypt from 'bcrypt'
 import { signIn } from '@/auth'
 import { Credentials } from '@/lib/definitions'
 
@@ -28,6 +29,7 @@ export const signup = async (
     if (user) {
       throw new Error('User already exists')
     }
+    data.password = await bcrypt.hash(data.password!, 10)
     await prisma.user.create({
       data: {
         name: data.name!,

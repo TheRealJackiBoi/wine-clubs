@@ -5,7 +5,8 @@ import { useFormState } from 'react-dom'
 import { MdOutlineWarning } from 'react-icons/md'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { Text } from '@chakra-ui/react'
+import { Link, Text } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import Input from '@/components/formik/FormikInput'
 import Button from '@/components/formik/FormikButton'
 import { authenticate } from '@/lib/actions'
@@ -58,6 +59,12 @@ const LoginPage: FC = () => {
             required
           />
           <Button>Login</Button>
+          <Text mt={4}>
+            Don’t have an account?{' '}
+            <Link as={NextLink} href='/signup' color='blue.500'>
+              Sign up
+            </Link>
+          </Text>
         </Form>
       </Formik>
     </>
