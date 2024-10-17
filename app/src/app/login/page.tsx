@@ -10,14 +10,12 @@ import Input from '@/components/formik/FormikInput'
 import Button from '@/components/formik/FormikButton'
 import { authenticate } from '@/lib/actions'
 import { Credentials } from '@/lib/definitions'
-import BackLink from '@/components/common/BackLink'
 
 const LoginPage: FC = () => {
   const [code, action] = useFormState(authenticate, undefined)
 
   return (
     <>
-      <BackLink />
       <Text fontSize='2em' mb={4}>
         Login
       </Text>

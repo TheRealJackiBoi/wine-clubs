@@ -13,12 +13,13 @@ export const authConfig = {
       const pathname = nextUrl.pathname
       const isLoggedIn = !!auth?.user
       const isOnProtectedPage = nextUrl.pathname.startsWith('/')
+      const isSignupPage = pathname.startsWith('/signup')
 
       if (isLoggedIn && pathname.startsWith('/login')) {
         return Response.redirect(new URL('/', nextUrl))
       }
 
-      if (isOnProtectedPage) {
+      if (isOnProtectedPage && !isSignupPage) {
         if (isLoggedIn) return true
         return false
       }
