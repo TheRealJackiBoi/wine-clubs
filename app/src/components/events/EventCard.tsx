@@ -2,9 +2,23 @@ import { Avatar, Box, HStack, Heading, Text } from '@chakra-ui/react'
 import { Event, User } from '@prisma/client'
 import { MdCalendarMonth } from 'react-icons/md'
 
-const EventCard = ({ event, host }: { event: Event; host: User }) => {
+const EventCard = ({
+  event,
+  host,
+  clubId,
+}: {
+  event: Event
+  host: User
+  clubId: string
+}) => {
   return (
-    <Box borderWidth={1} borderRadius='md' p={4}>
+    <Box
+      as='a'
+      href={`/clubs/${clubId}/events/${event.id}`}
+      borderWidth={1}
+      borderRadius='md'
+      p={4}
+    >
       <Heading as='h3' size='md' mb={2}>
         {event.name}
       </Heading>
