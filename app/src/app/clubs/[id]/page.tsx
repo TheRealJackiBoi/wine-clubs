@@ -63,6 +63,9 @@ export default async function ClubPage({ params }: Params) {
   const isMember = user!.wineClubs.find((club) => club.id === id)
   const now = DateTime.now().startOf('day')
 
+  const findTodaysEvents = (event: Event) =>
+    DateTime.fromJSDate(event.date).hasSame(now, 'day')
+
   const findFutureEvents = (event: Event) =>
     DateTime.fromJSDate(event.date).startOf('day') > now
 
@@ -112,6 +115,22 @@ export default async function ClubPage({ params }: Params) {
           </HStack>
         </VStack>
       </HStack>
+
+      <Divider my={8} />
+
+      <Heading as='h2' size='xl' mb={4}>
+        Todays Events
+      </Heading>
+      <SimpleGrid columns={[1, 2, 3]} spacing={4}>
+        {club.events.filter(findTodaysEvents).map((event) => (
+          <EventCard
+            key={event.id}
+            event={event}
+            host={event.host}
+            clubId={club.id}
+          />
+        ))}
+      </SimpleGrid>
 
       <Divider my={8} />
 
