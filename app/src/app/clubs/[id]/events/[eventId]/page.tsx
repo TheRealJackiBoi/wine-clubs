@@ -7,12 +7,15 @@ import {
   AvatarGroup,
   Avatar,
   Divider,
+  VStack,
+  HStack,
 } from '@chakra-ui/react'
 import prisma from '@/lib/prisma'
 import { auth } from '@/auth'
 import { DateTime } from 'luxon'
 import { notFound, redirect } from 'next/navigation'
 import SignUpToggle from '@/components/events/SignUpToggle'
+import AddWineModal from '@/components/events/addWineModal/AddWineModal'
 
 type Params = {
   params: {
@@ -44,6 +47,8 @@ export default async function EventPage({ params }: Params) {
     (member) => member.email === session.user!.email,
   )
 
+  const wines = await prisma.wine.findMany()
+
   return (
     <Box maxWidth='1200px' margin='auto' padding={8}>
       <Heading as='h1' size='2xl' mb={4}>
@@ -74,6 +79,15 @@ export default async function EventPage({ params }: Params) {
         eventId={event.id}
         userEmail={session.user.email}
       />
+
+      <Box>
+        <VStack>
+          <HStack>
+            <Text as='h2'>Tastings</Text>
+            <AddWineModal eventId={event.id} wines={wines} />
+          </HStack>
+        </VStack>
+      </Box>
     </Box>
   )
 }
