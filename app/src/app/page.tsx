@@ -11,7 +11,6 @@ import {
 import { Metadata } from 'next'
 import ClubCard from '@/components/clubs/ClubCard'
 import { colors } from '@/styles/theme'
-import Navbar from '@/components/navbar/Navbar'
 
 export const metadata: Metadata = {
   title: 'WineClubs',
@@ -21,7 +20,6 @@ const HomePage: FC = async () => {
   return (
     <Box>
       <Divider />
-      <Navbar />
       {/* Hero Section */}
       <Box
         bg={colors.brandGray}

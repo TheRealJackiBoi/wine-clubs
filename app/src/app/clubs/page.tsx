@@ -1,7 +1,6 @@
 import { getAllClubs } from '@/lib/actions'
 import { WineClub } from '@prisma/client'
 import ClubsGrid from '../../components/clubs/ClubsGrid'
-import Navbar from '@/components/navbar/Navbar'
 import { Box, Text, Heading, Button } from '@chakra-ui/react'
 import { colors } from '@/styles/theme'
 
@@ -10,7 +9,6 @@ const ClubsPage = async () => {
 
   return (
     <Box>
-      <Navbar />
       <ClubsGrid clubs={clubs} />
       <Box
         bg={colors.brandGray}
