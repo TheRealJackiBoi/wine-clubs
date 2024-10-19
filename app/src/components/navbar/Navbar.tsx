@@ -1,13 +1,12 @@
-'use client'
 import { colors } from '@/styles/theme'
 import { Flex, Text, Heading, Spacer } from '@chakra-ui/react'
 import Link from 'next/link'
 import { MdTapas } from 'react-icons/md'
 import AuthButton from '../common/AuthButton'
-import { useSession } from 'next-auth/react'
+import { auth } from '@/auth'
 
 const Navbar = () => {
-  const { data: session } = useSession()
+  const session = auth()
 
   return (
     <Flex
@@ -24,7 +23,7 @@ const Navbar = () => {
       </Link>
       <Spacer />
       <Flex alignItems='center'>
-        <AuthButton session={!!session} />{' '}
+        <AuthButton session={!!session} />
         <Link href='/clubs' passHref replace={false}>
           <Flex
             alignItems='center'
