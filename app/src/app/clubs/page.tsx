@@ -1,11 +1,10 @@
 import { getAllClubs } from '@/lib/actions'
-import { WineClub } from '@prisma/client'
 import ClubsGrid from '../../components/clubs/ClubsGrid'
 import { Box, Text, Heading, Button } from '@chakra-ui/react'
 import { colors } from '@/styles/theme'
 
 const ClubsPage = async () => {
-  const clubs: WineClub[] = await getAllClubs()
+  const clubs = await getAllClubs()
 
   return (
     <Box>
