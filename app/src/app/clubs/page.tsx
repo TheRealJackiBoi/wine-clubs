@@ -1,19 +1,13 @@
-// app/clubs/page.tsx
 import { getAllClubs } from '@/lib/actions'
-import { WineClub } from '@prisma/client'
 import ClubsGrid from '../../components/clubs/ClubsGrid'
-import Navbar from '@/components/navbar/Navbar'
-import { Box, Text, Heading, Button, VStack, HStack } from '@chakra-ui/react'
+import { Box, Text, Heading, Button } from '@chakra-ui/react'
 import { colors } from '@/styles/theme'
-import ClubCard from '@/components/clubs/ClubCard'
 
-// This is a Server Component by default in the app directory
 const ClubsPage = async () => {
-  const clubs: WineClub[] = await getAllClubs()
+  const clubs = await getAllClubs()
 
   return (
     <Box>
-      <Navbar />
       <ClubsGrid clubs={clubs} />
       <Box
         bg={colors.brandGray}
