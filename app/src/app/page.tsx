@@ -27,6 +27,7 @@ const HomePage: FC = async () => {
         bg={colors.brandGray}
         color={colors.brandWhite}
         minH='100vh'
+        maxW='1200px'
         display='flex'
         justifyContent='center'
         alignItems='center'

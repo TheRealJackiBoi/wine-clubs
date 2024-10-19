@@ -67,3 +67,17 @@ export async function getAllUsers() {
     throw new Error('Failed to fetch users.')
   }
 }
+
+export const getAllClubs = async () => {
+  try {
+    return await prisma.wineClub.findMany({
+      include: {
+        members: true,
+        clubOwner: true,
+      },
+    })
+  } catch (error) {
+    console.error('Failed to fetch clubs:', error)
+    throw new Error('Failed to fetch clubs.')
+  }
+}

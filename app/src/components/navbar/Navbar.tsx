@@ -14,9 +14,11 @@ const Navbar = () => {
       alignItems='center'
       boxShadow='md'
     >
-      <Heading as='h1' fontSize='xl'>
-        WineClubs
-      </Heading>
+      <Link href={'/'} passHref>
+        <Heading as='h1' fontSize='xl'>
+          WineClubs
+        </Heading>
+      </Link>
       <Spacer />
       <Flex alignItems='center'>
         {session ? (
@@ -41,7 +43,7 @@ const Navbar = () => {
             </Flex>
           </Link>
         )}
-        <Link href='/clubs' passHref>
+        <Link href='/clubs' passHref replace={false}>
           <Flex
             alignItems='center'
             mx={4}
