@@ -1,5 +1,5 @@
 import { colors } from '@/styles/theme'
-import { Flex, Text, Heading, Spacer } from '@chakra-ui/react'
+import { Flex, Text, Heading, Spacer, Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import { MdTapas } from 'react-icons/md'
 import AuthButton from '../common/AuthButton'
@@ -25,14 +25,16 @@ const Navbar = () => {
       <Flex alignItems='center'>
         <AuthButton session={!!session} />
         <Link href='/clubs' passHref replace={false}>
-          <Flex
+          <Button
             alignItems='center'
             mx={4}
-            _hover={{ textDecoration: 'underline' }}
+            bg={colors.brandRed}
+            textColor={colors.brandWhite}
+            _hover={{ bg: colors.brandRedDark }}
           >
             <MdTapas style={{ marginRight: '5px' }} />
             <Text>Clubs</Text>
-          </Flex>
+          </Button>
         </Link>
       </Flex>
     </Flex>
