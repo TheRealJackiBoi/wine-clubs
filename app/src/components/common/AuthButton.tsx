@@ -16,7 +16,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ session }) => {
       alignItems='center'
       mx={4}
       _hover={{ textDecoration: 'underline' }}
-      onClick={() => signOut()}
+      onClick={() => signOut({ callbackUrl: '/' })} // Optional: Redirect after sign out
     >
       <MdExitToApp style={{ marginRight: '5px' }} />
       <Text>Log out</Text>

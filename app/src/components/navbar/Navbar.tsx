@@ -7,7 +7,7 @@ import AuthButton from '../common/AuthButton'
 import { useSession } from 'next-auth/react'
 
 const Navbar = () => {
-  const session = useSession()
+  const { data: session } = useSession()
 
   return (
     <Flex
@@ -24,7 +24,7 @@ const Navbar = () => {
       </Link>
       <Spacer />
       <Flex alignItems='center'>
-        <AuthButton session={session} />
+        <AuthButton session={!!session} />{' '}
         <Link href='/clubs' passHref replace={false}>
           <Flex
             alignItems='center'
