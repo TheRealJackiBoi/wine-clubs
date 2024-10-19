@@ -1,5 +1,5 @@
 import { colors } from '@/styles/theme'
-import { Flex, Text, Heading, Spacer, Button } from '@chakra-ui/react'
+import { Flex, Text, Spacer, Button, Image } from '@chakra-ui/react'
 import Link from 'next/link'
 import { MdTapas } from 'react-icons/md'
 import AuthButton from '../common/AuthButton'
@@ -17,9 +17,12 @@ const Navbar = () => {
       boxShadow='md'
     >
       <Link href={'/'} passHref>
-        <Heading as='h1' fontSize='xl'>
-          WineClubs
-        </Heading>
+        <Image
+          src='./images/WineClubsLogoGrayBG.png'
+          alt='WineClubs Logo'
+          boxSize='100px'
+          marginLeft='2rem'
+        />
       </Link>
       <Spacer />
       <Flex alignItems='center'>
