@@ -55,12 +55,11 @@ model Wine {
 
 model Rating {
   id        Int      @id @default(autoincrement())
-  wineId    String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   rating    Int
   createdAt DateTime @default(now())
-  Tasting   Tasting  @relation(fields: [tastingId], references: [id])
+  tasting   Tasting  @relation(fields: [tastingId], references: [id])
   tastingId String
 }
 
