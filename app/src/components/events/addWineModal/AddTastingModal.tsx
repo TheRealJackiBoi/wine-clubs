@@ -20,6 +20,7 @@ import CreateNewWine from './CreateNewWineModal'
 import { useRef, useState } from 'react'
 import axios from 'axios'
 import { DateTime } from 'luxon'
+import { useRouter } from 'next/navigation'
 
 const AddTastingModal = ({
   clubId,
@@ -33,6 +34,8 @@ const AddTastingModal = ({
   wines: Wine[]
 }) => {
   const toast = useToast()
+  const router = useRouter()
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const selectRef = useRef<HTMLSelectElement | null>(null)
@@ -42,7 +45,7 @@ const AddTastingModal = ({
     const result = await axios.get('/api/wines')
 
     const data = result.data
-
+    console.log(data.wines)
     if (data.success) {
       setWines(data.wines)
     }
@@ -68,7 +71,7 @@ const AddTastingModal = ({
             isClosable: true,
           })
 
-          refetchWines()
+          router.refresh()
           onClose()
         } else {
           toast({

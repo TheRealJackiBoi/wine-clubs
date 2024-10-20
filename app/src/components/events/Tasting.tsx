@@ -4,6 +4,7 @@ import { Card, CardBody, HStack, Spacer, Text } from '@chakra-ui/react'
 import { DateTime } from 'luxon'
 import { MdStar } from 'react-icons/md'
 import RateWineModal from './RateWineModal'
+import { Role } from '@prisma/client'
 
 const Tasting = ({
   tasting,
@@ -20,6 +21,15 @@ const Tasting = ({
     }
     ratings: {
       id: number
+      user: {
+        id: string
+        name: string
+        email: string
+        password: string
+        role: Role
+        avatar: string
+      }
+
       userId: string
       rating: number
       createdAt: Date
@@ -36,12 +46,16 @@ const Tasting = ({
       tasting.ratings.length
     : 0
 
+  const isRated = !!tasting.ratings.find(
+    (rating) => rating.user.email === userEmail,
+  )
+
   return (
     <Card w='100%'>
       <CardBody>
         <HStack>
           <Text>
-            {tasting.wine.name} -
+            {tasting.wine.name} -{' '}
             {DateTime.fromJSDate(tasting.wine.year).get('year')}
           </Text>
           <Spacer />
@@ -49,7 +63,9 @@ const Tasting = ({
             <MdStar />
             <Text>{averageRating}</Text>
           </HStack>
-          <RateWineModal tastingId={tasting.id} userEmail={userEmail} />
+          {isRated || (
+            <RateWineModal tastingId={tasting.id} userEmail={userEmail} />
+          )}
         </HStack>
       </CardBody>
     </Card>
