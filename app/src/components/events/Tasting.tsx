@@ -1,12 +1,15 @@
 'use client'
 
-import { Button, Card, CardBody, HStack, Spacer, Text } from '@chakra-ui/react'
+import { Card, CardBody, HStack, Spacer, Text } from '@chakra-ui/react'
 import { DateTime } from 'luxon'
 import { MdStar } from 'react-icons/md'
+import RateWineModal from './RateWineModal'
 
 const Tasting = ({
   tasting,
+  userEmail,
 }: {
+  userEmail: string
   tasting: {
     wine: {
       id: string
@@ -17,7 +20,6 @@ const Tasting = ({
     }
     ratings: {
       id: number
-      wineId: string
       userId: string
       rating: number
       createdAt: Date
@@ -47,8 +49,7 @@ const Tasting = ({
             <MdStar />
             <Text>{averageRating}</Text>
           </HStack>
-          {/* TODO: Create rating button */}
-          <Button>Rate</Button>
+          <RateWineModal tastingId={tasting.id} userEmail={userEmail} />
         </HStack>
       </CardBody>
     </Card>

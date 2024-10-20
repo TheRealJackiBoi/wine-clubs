@@ -103,7 +103,11 @@ export default async function EventPage({ params }: Params) {
         <Text>Tastings</Text>
         <VStack w='100%'>
           {event.tastings.map((tasting) => (
-            <Tasting key={tasting.id} tasting={tasting} />
+            <Tasting
+              key={tasting.id}
+              tasting={tasting}
+              userEmail={session.user!.email as string}
+            />
           ))}
         </VStack>
       </Box>

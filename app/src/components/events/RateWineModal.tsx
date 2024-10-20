@@ -14,13 +14,17 @@ import Input from '@/components/formik/FormikInput'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
-const CreateNewWine = ({
-  refetchTastings,
+const RateWineModal = ({
+  userEmail,
+  tastingId,
 }: {
-  refetchTastings: () => void
+  userEmail: string
+  tastingId: string
 }) => {
   const toast = useToast()
+  const router = useRouter()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -30,14 +34,12 @@ const CreateNewWine = ({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add New Wine</ModalHeader>
+          <ModalHeader>Rate wine</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Formik
               initialValues={{
-                name: '',
-                year: new Date().getFullYear(),
-                image: '',
+                rating: '',
               }}
               validationSchema={Yup.object({
                 rating: Yup.number()
@@ -47,20 +49,25 @@ const CreateNewWine = ({
               })}
               onSubmit={async (values) => {
                 try {
-                  const result = await axios.post('/api/wines', { values })
+                  const result = await axios.post(
+                    `/api/tastings/${tastingId}/ratings`,
+                    {
+                      userEmail: userEmail,
+                      rating: values.rating,
+                    },
+                  )
 
                   const data = result.data
 
                   if (data.success) {
                     toast({
-                      title: 'Wine Created',
-                      description: `${values.name} created`,
+                      title: 'Tasting rated',
+                      description: `Rating added`,
                       status: 'success',
                       duration: 5000,
                       isClosable: true,
                     })
-
-                    refetchTastings()
+                    router.refresh()
                     onClose()
                   } else {
                     toast({
@@ -92,22 +99,9 @@ const CreateNewWine = ({
               {({ isSubmitting }) => (
                 <Form>
                   <Input
-                    label='Name'
-                    placeholder='Enter wine name'
-                    name='name'
-                    required
-                  />
-                  <Input
-                    label='Year'
-                    placeholder='Enter the year of the wine'
-                    name='year'
-                    type='number'
-                    required
-                  />
-                  <Input
-                    label='Image url'
-                    placeholder='Enter the url for the wine image'
-                    name='image'
+                    label='rating'
+                    placeholder='Enter your rating'
+                    name='rating'
                     required
                   />
                   <Button
@@ -116,7 +110,7 @@ const CreateNewWine = ({
                     mt={4}
                     isLoading={isSubmitting}
                   >
-                    Create Event
+                    Rate
                   </Button>
                 </Form>
               )}
@@ -128,4 +122,4 @@ const CreateNewWine = ({
   )
 }
 
-export default CreateNewWine
+export default RateWineModal
