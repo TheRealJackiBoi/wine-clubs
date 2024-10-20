@@ -8,12 +8,16 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import Input from '@/components/formik/FormikInput'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import axios from 'axios'
 
 const CreateNewWine = ({ refetchWines }: { refetchWines: () => void }) => {
+  const toast = useToast()
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -40,9 +44,48 @@ const CreateNewWine = ({ refetchWines }: { refetchWines: () => void }) => {
                   .required('Year of the wine is required'),
                 image: Yup.string().required('Image is required'),
               })}
-              onSubmit={(values) => {
-                console.log(values)
-                refetchWines()
+              onSubmit={async (values) => {
+                try {
+                  const result = await axios.post('/api/wines', { values })
+
+                  const data = result.data
+
+                  if (data.success) {
+                    toast({
+                      title: 'Wine Created',
+                      description: `${values.name} created`,
+                      status: 'success',
+                      duration: 5000,
+                      isClosable: true,
+                    })
+
+                    refetchWines()
+                    onClose()
+                  } else {
+                    toast({
+                      title: 'Error',
+                      description: data.message,
+                      status: 'error',
+                      duration: 5000,
+                      isClosable: true,
+                    })
+                  }
+                } catch (error) {
+                  console.error(error)
+
+                  const errorMessage =
+                    axios.isAxiosError(error) && error.response
+                      ? error.response.data.message
+                      : 'An unexpected error occurred.'
+
+                  toast({
+                    title: 'Error',
+                    description: errorMessage,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                  })
+                }
               }}
             >
               {({ isSubmitting }) => (

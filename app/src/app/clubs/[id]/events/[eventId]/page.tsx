@@ -84,7 +84,12 @@ export default async function EventPage({ params }: Params) {
         <VStack>
           <HStack>
             <Text as='h2'>Tastings</Text>
-            <AddWineModal eventId={event.id} wines={wines} />
+            <AddWineModal
+              clubId={event.wineClub.id}
+              eventId={event.id}
+              userEmail={session.user.email}
+              wines={wines}
+            />
           </HStack>
         </VStack>
       </Box>

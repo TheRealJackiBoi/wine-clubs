@@ -18,7 +18,6 @@ model WineClub {
   members     User[]    @relation(name: "clubMembers")
   createdAt   DateTime  @default(now())
   events      Event[]
-  tastings    Tasting[]
 }
 
 model Event {
@@ -43,8 +42,6 @@ model Tasting {
   event      Event     @relation(fields: [eventId], references: [id])
   eventId    String
   ratings    Rating[]
-  wineClub   WineClub @relation(fields: [wineClubId], references: [id])
-  wineClubId String
 }
 
 model Wine {
