@@ -34,6 +34,7 @@ export default async function EventPage({ params }: Params) {
       tastings: {
         include: {
           wine: true,
+          ratings: true,
         },
       },
       wineClub: true,
