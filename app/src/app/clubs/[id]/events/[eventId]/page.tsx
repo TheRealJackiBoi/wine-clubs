@@ -15,8 +15,8 @@ import { auth } from '@/auth'
 import { DateTime } from 'luxon'
 import { notFound, redirect } from 'next/navigation'
 import SignUpToggle from '@/components/events/SignUpToggle'
-import AddWineModal from '@/components/events/addWineModal/AddWineModal'
 import Tasting from '@/components/events/Tasting'
+import AddTastingModal from '@/components/events/addWineModal/AddTastingModal'
 
 type Params = {
   params: {
@@ -90,7 +90,7 @@ export default async function EventPage({ params }: Params) {
         <VStack>
           <HStack>
             <Text as='h2'>Tastings</Text>
-            <AddWineModal
+            <AddTastingModal
               clubId={event.wineClub.id}
               eventId={event.id}
               userEmail={session.user.email}

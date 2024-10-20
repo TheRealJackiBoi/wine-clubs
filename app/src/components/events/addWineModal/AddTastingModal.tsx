@@ -21,7 +21,7 @@ import { useRef, useState } from 'react'
 import axios from 'axios'
 import { DateTime } from 'luxon'
 
-const AddWineModal = ({
+const AddTastingModal = ({
   clubId,
   eventId,
   userEmail,
@@ -53,7 +53,7 @@ const AddWineModal = ({
 
       try {
         const result = await axios.post(
-          `/api/clubs/${clubId}/events/${eventId}/tasting`,
+          `/api/clubs/${clubId}/events/${eventId}/tastings`,
           { wineId: selectedValue, userEmail: userEmail },
         )
 
@@ -133,4 +133,4 @@ const AddWineModal = ({
   )
 }
 
-export default AddWineModal
+export default AddTastingModal
