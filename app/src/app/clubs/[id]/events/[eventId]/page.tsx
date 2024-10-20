@@ -16,6 +16,7 @@ import { DateTime } from 'luxon'
 import { notFound, redirect } from 'next/navigation'
 import SignUpToggle from '@/components/events/SignUpToggle'
 import AddWineModal from '@/components/events/addWineModal/AddWineModal'
+import Tasting from '@/components/events/Tasting'
 
 type Params = {
   params: {
@@ -30,7 +31,11 @@ export default async function EventPage({ params }: Params) {
     where: { id: id },
     include: {
       host: true,
-      tastings: true,
+      tastings: {
+        include: {
+          wine: true,
+        },
+      },
       wineClub: true,
       signUps: true,
     },
@@ -91,6 +96,14 @@ export default async function EventPage({ params }: Params) {
               wines={wines}
             />
           </HStack>
+        </VStack>
+      </Box>
+      <Box w='100%'>
+        <Text>Tastings</Text>
+        <VStack w='100%'>
+          {event.tastings.map((tasting) => (
+            <Tasting key={tasting.id} tasting={tasting} />
+          ))}
         </VStack>
       </Box>
     </Box>

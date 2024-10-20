@@ -19,6 +19,7 @@ import { Wine } from '@prisma/client'
 import CreateNewWine from './CreateNewWineModal'
 import { useRef, useState } from 'react'
 import axios from 'axios'
+import { DateTime } from 'luxon'
 
 const AddWineModal = ({
   clubId,
@@ -114,7 +115,7 @@ const AddWineModal = ({
                 wines.map((wine) => (
                   <option key={wine.id} value={wine.id}>
                     <Avatar src={wine.image} />
-                    {wine.name} - {wine.year.getFullYear()}
+                    {wine.name} - {DateTime.fromJSDate(wine.year).get('year')}
                   </option>
                 ))}
             </Select>
