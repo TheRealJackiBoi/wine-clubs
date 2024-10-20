@@ -12,10 +12,25 @@ import {
   Avatar,
 } from '@chakra-ui/react'
 import { MdPeople } from 'react-icons/md'
-import { WineClub } from '@prisma/client'
 import Link from 'next/link'
 import { FC } from 'react'
 import { colors } from '@/styles/theme'
+
+interface Member {
+  id: string
+  name: string
+  avatar: string
+}
+
+interface WineClub {
+  id: string
+  name: string
+  description: string
+  image: string
+  clubOwnerId: string
+  createdAt: Date
+  members: Member[] // Add the members property here
+}
 
 interface ClubsGridProps {
   clubs: WineClub[]

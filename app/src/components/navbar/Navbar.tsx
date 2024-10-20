@@ -1,10 +1,12 @@
 import { colors } from '@/styles/theme'
-import { Flex, Text, Heading, Spacer } from '@chakra-ui/react'
+import { Flex, Text, Spacer, Button, Image } from '@chakra-ui/react'
 import Link from 'next/link'
-import { MdAccountCircle, MdExitToApp, MdTapas } from 'react-icons/md'
+import { MdTapas } from 'react-icons/md'
+import AuthButton from '../common/AuthButton'
+import { auth } from '@/auth'
 
 const Navbar = () => {
-  const session = true
+  const session = auth()
 
   return (
     <Flex
@@ -15,43 +17,27 @@ const Navbar = () => {
       boxShadow='md'
     >
       <Link href={'/'} passHref>
-        <Heading as='h1' fontSize='xl'>
-          WineClubs
-        </Heading>
+        <Image
+          src='./images/WineClubsLogoGrayBG.png'
+          alt='WineClubs Logo'
+          boxSize='100px'
+          marginLeft='2rem'
+        />
       </Link>
       <Spacer />
       <Flex alignItems='center'>
-        {session ? (
-          <Flex
-            as='button'
-            alignItems='center'
-            mx={4}
-            _hover={{ textDecoration: 'underline' }}
-          >
-            <MdExitToApp style={{ marginRight: '5px' }} />
-            <Text>Log out</Text>
-          </Flex>
-        ) : (
-          <Link href='/login' passHref>
-            <Flex
-              alignItems='center'
-              mx={4}
-              _hover={{ textDecoration: 'underline' }}
-            >
-              <MdAccountCircle style={{ marginRight: '5px' }} />
-              <Text>Login</Text>
-            </Flex>
-          </Link>
-        )}
+        <AuthButton session={!!session} />
         <Link href='/clubs' passHref replace={false}>
-          <Flex
+          <Button
             alignItems='center'
             mx={4}
-            _hover={{ textDecoration: 'underline' }}
+            bg={colors.brandRed}
+            textColor={colors.brandWhite}
+            _hover={{ bg: colors.brandRedDark }}
           >
             <MdTapas style={{ marginRight: '5px' }} />
             <Text>Clubs</Text>
-          </Flex>
+          </Button>
         </Link>
       </Flex>
     </Flex>
