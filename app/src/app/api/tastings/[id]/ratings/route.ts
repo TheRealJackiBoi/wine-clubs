@@ -21,6 +21,11 @@ export const POST = async (
           signUps: true,
         },
       },
+      ratings: {
+        include: {
+          user: true,
+        },
+      },
     },
   })
 
@@ -49,6 +54,16 @@ export const POST = async (
       {
         status: false,
         message: `User ${user.name} is not a part of event ${tasting.event.name}`,
+      },
+      { status: 404 },
+    )
+  }
+
+  if (tasting.ratings.find((rating) => rating.user.id === user.id)) {
+    return Response.json(
+      {
+        status: false,
+        message: `User ${user.name} already rated this tasting of ${tasting.wine.name}`,
       },
       { status: 404 },
     )
