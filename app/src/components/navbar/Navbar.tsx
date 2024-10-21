@@ -1,13 +1,16 @@
 import { colors } from '@/styles/theme'
-import { Flex, Text, Spacer, Button, Image } from '@chakra-ui/react'
+import { Flex, Text, Spacer, Button, Image, Avatar } from '@chakra-ui/react'
 import Link from 'next/link'
 import { MdTapas } from 'react-icons/md'
 import AuthButton from '../common/AuthButton'
 import { auth } from '@/auth'
+import { getUser } from '@/lib/actions'
 
 const Navbar = async () => {
   const session = await auth()
   const isUserLoggedIn = !!session?.user
+  if (!isUserLoggedIn) return null
+  const user = await getUser(session!.user!.email!)
 
   return (
     <Flex
@@ -39,6 +42,9 @@ const Navbar = async () => {
             <MdTapas style={{ marginRight: '5px' }} />
             <Text>Clubs</Text>
           </Button>
+        </Link>
+        <Link href={`/profile/${user?.id}`} passHref>
+          <Avatar />
         </Link>
       </Flex>
     </Flex>
