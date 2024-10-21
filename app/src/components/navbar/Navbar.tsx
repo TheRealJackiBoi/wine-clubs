@@ -19,7 +19,7 @@ const Navbar = async () => {
     >
       <Link href={'/'} passHref>
         <Image
-          src='./images/WineClubsLogoGrayBG.png'
+          src='/images/WineClubsLogoGrayBG.png'
           alt='WineClubs Logo'
           boxSize='100px'
           marginLeft='2rem'
