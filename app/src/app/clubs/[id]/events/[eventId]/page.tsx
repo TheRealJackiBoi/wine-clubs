@@ -7,12 +7,16 @@ import {
   AvatarGroup,
   Avatar,
   Divider,
+  VStack,
+  HStack,
 } from '@chakra-ui/react'
 import prisma from '@/lib/prisma'
 import { auth } from '@/auth'
 import { DateTime } from 'luxon'
 import { notFound, redirect } from 'next/navigation'
 import SignUpToggle from '@/components/events/SignUpToggle'
+import Tasting from '@/components/events/Tasting'
+import AddTastingModal from '@/components/events/addWineModal/AddTastingModal'
 
 type Params = {
   params: {
@@ -27,7 +31,21 @@ export default async function EventPage({ params }: Params) {
     where: { id: id },
     include: {
       host: true,
-      tastings: true,
+      tastings: {
+        include: {
+          wine: true,
+          ratings: {
+            include: {
+              user: true,
+            },
+          },
+        },
+        orderBy: {
+          wine: {
+            name: 'asc',
+          },
+        },
+      },
       wineClub: true,
       signUps: true,
     },
@@ -44,6 +62,7 @@ export default async function EventPage({ params }: Params) {
     (member) => member.email === session.user!.email,
   )
 
+  const wines = await prisma.wine.findMany()
   return (
     <Box maxWidth='1200px' margin='auto' padding={8}>
       <Heading as='h1' size='2xl' mb={4}>
@@ -68,12 +87,40 @@ export default async function EventPage({ params }: Params) {
       </AvatarGroup>
 
       <Divider my={8} />
-      <SignUpToggle
-        isSignedUp={isSignedUp}
-        clubId={event.wineClubId}
-        eventId={event.id}
-        userEmail={session.user.email}
-      />
+      {event.host.email != session.user!.email! && (
+        <SignUpToggle
+          isSignedUp={isSignedUp}
+          clubId={event.wineClubId}
+          eventId={event.id}
+          userEmail={session.user.email}
+        />
+      )}
+
+      <Box>
+        <VStack>
+          <HStack>
+            <Text as='h2'>Tastings</Text>
+            <AddTastingModal
+              clubId={event.wineClub.id}
+              eventId={event.id}
+              userEmail={session.user.email}
+              wines={wines}
+            />
+          </HStack>
+        </VStack>
+      </Box>
+      <Box w='100%'>
+        <Text>Tastings</Text>
+        <VStack w='100%'>
+          {event.tastings.map((tasting) => (
+            <Tasting
+              key={tasting.id}
+              tasting={tasting}
+              userEmail={session.user!.email as string}
+            />
+          ))}
+        </VStack>
+      </Box>
     </Box>
   )
 }
