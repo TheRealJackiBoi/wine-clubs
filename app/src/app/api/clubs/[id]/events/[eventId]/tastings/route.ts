@@ -65,7 +65,7 @@ export const POST = async (
   }
 
   if (
-    !club.members.find((member: User) => member.id === user.id) ||
+    !club.members.find((member: User) => member.id === user.id) &&
     club.clubOwnerId !== user.id
   ) {
     return Response.json(
