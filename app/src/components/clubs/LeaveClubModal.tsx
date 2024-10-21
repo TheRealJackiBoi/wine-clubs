@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { MdInfo } from 'react-icons/md'
 import axios from 'axios'
+import { colors } from '@/styles/theme'
 
 type Props = {
   userId: string
@@ -73,7 +74,13 @@ const LeaveClubModal = ({ clubId, userId }: Props) => {
   }
   return (
     <>
-      <Button rightIcon={<MdInfo />} variant='outline' onClick={onOpen}>
+      <Button
+        bg={colors.brandRed}
+        leftIcon={<MdInfo />}
+        onClick={onOpen}
+        textColor={colors.brandWhite}
+        _hover={{ bg: colors.brandRedDark }}
+      >
         Club Options
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>

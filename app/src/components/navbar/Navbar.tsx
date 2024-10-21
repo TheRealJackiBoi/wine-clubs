@@ -5,8 +5,9 @@ import { MdTapas } from 'react-icons/md'
 import AuthButton from '../common/AuthButton'
 import { auth } from '@/auth'
 
-const Navbar = () => {
-  const session = auth()
+const Navbar = async () => {
+  const session = await auth()
+  const isUserLoggedIn = !!session?.user
 
   return (
     <Flex
@@ -26,7 +27,7 @@ const Navbar = () => {
       </Link>
       <Spacer />
       <Flex alignItems='center'>
-        <AuthButton session={!!session} />
+        <AuthButton isUserLoggedIn={isUserLoggedIn} />
         <Link href='/clubs' passHref replace={false}>
           <Button
             alignItems='center'
