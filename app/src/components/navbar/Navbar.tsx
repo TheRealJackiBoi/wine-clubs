@@ -34,7 +34,7 @@ const Navbar = async () => {
         <Link href='/clubs' passHref replace={false}>
           <Button
             alignItems='center'
-            mx={4}
+            mr={5}
             bg={colors.brandRed}
             textColor={colors.brandWhite}
             _hover={{ bg: colors.brandRedDark }}
@@ -44,7 +44,11 @@ const Navbar = async () => {
           </Button>
         </Link>
         <Link href={`/profile/${user?.id}`} passHref>
-          <Avatar />
+          <Avatar
+            name={user?.email}
+            src={user?.avatar}
+            style={{ marginRight: '5px' }}
+          />
         </Link>
       </Flex>
     </Flex>
