@@ -63,7 +63,6 @@ export default async function EventPage({ params }: Params) {
   )
 
   const wines = await prisma.wine.findMany()
-
   return (
     <Box maxWidth='1200px' margin='auto' padding={8}>
       <Heading as='h1' size='2xl' mb={4}>
@@ -88,12 +87,14 @@ export default async function EventPage({ params }: Params) {
       </AvatarGroup>
 
       <Divider my={8} />
-      <SignUpToggle
-        isSignedUp={isSignedUp}
-        clubId={event.wineClubId}
-        eventId={event.id}
-        userEmail={session.user.email}
-      />
+      {event.host.email != session.user!.email! && (
+        <SignUpToggle
+          isSignedUp={isSignedUp}
+          clubId={event.wineClubId}
+          eventId={event.id}
+          userEmail={session.user.email}
+        />
+      )}
 
       <Box>
         <VStack>
