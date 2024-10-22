@@ -20,7 +20,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ isUserLoggedIn }) => {
       <Button
         bg='transparent'
         textColor={colors.brandWhite}
-        _hover={{ bg: 'transparent', textDecoration: 'underline' }}
+        _hover={{ bg: 'transparent' }}
         type='submit'
       >
         <TbLogout2 />

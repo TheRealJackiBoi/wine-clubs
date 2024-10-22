@@ -46,7 +46,7 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
                 {user.name}
               </Heading>
               <Text fontSize='lg'>{user.email}</Text>
-              <Text fontSize='md'>Role: {user.role}</Text>
+              <Text fontSize='md'>Membership: [ Standard / Premium ]</Text>
             </VStack>
           </HStack>
 

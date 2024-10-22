@@ -1,9 +1,19 @@
 import { colors } from '@/styles/theme'
-import { Flex, Text, Spacer, Button, Image, Avatar } from '@chakra-ui/react'
+import {
+  Flex,
+  Text,
+  Spacer,
+  Button,
+  Image,
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react'
 import Link from 'next/link'
-import { MdTapas } from 'react-icons/md'
-import AuthButton from '../common/AuthButton'
-import { auth } from '@/auth'
+import { MdLogout, MdPerson, MdSettings, MdTapas } from 'react-icons/md'
+import { auth, signOut } from '@/auth'
 import { getUser } from '@/lib/actions'
 
 const Navbar = async () => {
@@ -29,12 +39,15 @@ const Navbar = async () => {
           mr='1rem'
         />
       </Link>
-      <Text fontSize='xl' fontWeight='bold'>
+      <Text
+        fontSize='xl'
+        fontWeight='bold'
+        display={{ base: 'none', md: 'block' }}
+      >
         WineClubs
       </Text>
       <Spacer />
       <Flex alignItems='center'>
-        <AuthButton isUserLoggedIn={isUserLoggedIn} />
         <Link href='/clubs' passHref replace={false}>
           <Button
             alignItems='center'
@@ -47,14 +60,52 @@ const Navbar = async () => {
             <Text>Clubs</Text>
           </Button>
         </Link>
-        <Link href={`/profile/${user?.id}`} passHref>
-          <Avatar
-            name={user?.email}
-            src={user?.avatar}
-            mr='2rem'
-            _hover={{ outline: `${colors.brandRed} 2px solid` }}
-          />
-        </Link>
+        <Menu>
+          <MenuButton>
+            <Avatar
+              name={user?.email}
+              src={user?.avatar}
+              mr='2rem'
+              _hover={{ outline: `${colors.brandRed} 2px solid` }}
+              cursor='pointer'
+            />
+          </MenuButton>
+          <MenuList bg={colors.brandRed} color={colors.brandWhite}>
+            <Link href={`/profile/${user?.id}`} passHref>
+              <MenuItem
+                icon={<MdPerson />}
+                bg={colors.brandRed}
+                _hover={{ bg: colors.brandRedDark }}
+              >
+                Profile
+              </MenuItem>
+            </Link>
+            <Link href='/settings' passHref>
+              <MenuItem
+                icon={<MdSettings />}
+                bg={colors.brandRed}
+                _hover={{ bg: colors.brandRedDark }}
+              >
+                Settings
+              </MenuItem>
+            </Link>
+            <form
+              action={async () => {
+                'use server'
+                await signOut()
+              }}
+            >
+              <MenuItem
+                bg={colors.brandRed}
+                _hover={{ bg: colors.brandRedDark }}
+                icon={<MdLogout />}
+                type='submit'
+              >
+                Log out
+              </MenuItem>
+            </form>
+          </MenuList>
+        </Menu>
       </Flex>
     </Flex>
   )
