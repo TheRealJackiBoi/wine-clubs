@@ -47,14 +47,14 @@ const LoginPage: FC = () => {
         <Form>
           <Input
             label='E-mail'
-            placeholder='Input your e-mail'
+            placeholder='john@example.com'
             name='email'
             required
           />
           <Input
             type='password'
             label='Password'
-            placeholder='Input your password'
+            placeholder='Password'
             name='password'
             required
           />

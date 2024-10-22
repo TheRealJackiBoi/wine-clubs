@@ -46,6 +46,35 @@ export const signup = async (
   }
 }
 
+export async function getUserById(id: string) {
+  return prisma.user.findUnique({
+    where: { id },
+  })
+}
+
+export async function getUserClubs(userId: string) {
+  return prisma.wineClub.findMany({
+    where: {
+      OR: [{ members: { some: { id: userId } } }, { clubOwnerId: userId }],
+    },
+    include: {
+      members: true,
+      clubOwner: true,
+    },
+  })
+}
+
+export async function getUserEvents(userId: string) {
+  return prisma.event.findMany({
+    where: {
+      OR: [{ signUps: { some: { id: userId } } }, { hostId: userId }],
+    },
+    include: {
+      wineClub: true,
+    },
+  })
+}
+
 export async function getUser(email: string): Promise<User | null> {
   try {
     return await prisma.user.findFirst({
