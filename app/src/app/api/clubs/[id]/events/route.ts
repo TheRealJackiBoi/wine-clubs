@@ -24,18 +24,22 @@ export const POST = async (
       { status: 404 },
     )
   }
-
+  console.log(hostId)
   const host = await prisma.user.findUnique({
     where: { id: hostId },
   })
   if (!host) {
+    console.log('inside')
     return Response.json(
       { status: false, message: 'User not found' },
       { status: 404 },
     )
   }
 
-  if (!club.members.find((member: User) => member.id === hostId)) {
+  if (
+    !club.members.find((member: User) => member.id === hostId) &&
+    club.clubOwnerId !== hostId
+  ) {
     return Response.json(
       { success: false, message: `User not a member of ${club.name}` },
       {
@@ -61,11 +65,14 @@ export const POST = async (
         },
       },
     })
-    return Response.json({ success: true }, { status: 200 })
-  } catch (error) {
-    console.error('Failed to leave club:', error)
     return Response.json(
-      { success: false, message: 'Failed to leave club' },
+      { success: true, message: `${values.name} created` },
+      { status: 200 },
+    )
+  } catch (error) {
+    console.error('Failed to create event', error)
+    return Response.json(
+      { success: false, message: 'Failed to create event' },
       { status: 500 },
     )
   }

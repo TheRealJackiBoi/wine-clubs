@@ -39,7 +39,22 @@ export const PATCH = async (
     )
   }
 
-  if (!event.wineClub.members.find((member: User) => member.id === user.id)) {
+  if (event.hostId === user.id) {
+    return Response.json(
+      {
+        success: false,
+        message: `Host can't signUp`,
+      },
+      {
+        status: 403,
+      },
+    )
+  }
+
+  if (
+    !event.wineClub.members.find((member: User) => member.id === user.id) &&
+    event.wineClub.clubOwnerId !== user.id
+  ) {
     return Response.json(
       {
         success: false,
