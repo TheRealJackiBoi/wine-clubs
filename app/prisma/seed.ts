@@ -101,7 +101,6 @@ async function main() {
     data: {
       wine: { connect: { id: wine.id } },
       event: { connect: { id: event.id } },
-      wineClub: { connect: { id: wineClub.id } },
     },
   })
 
