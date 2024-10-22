@@ -102,6 +102,7 @@ const RateWineModal = ({
                     label='rating'
                     placeholder='Enter your rating'
                     name='rating'
+                    type='number'
                     required
                   />
                   <Button
