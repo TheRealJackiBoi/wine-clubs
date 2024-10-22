@@ -43,7 +43,12 @@ const SignupPage: FC = () => {
         validationSchema={Yup.object({
           name: Yup.string().required('Required'),
           email: Yup.string().email('Invalid email').required('Required'),
-          password: Yup.string().required('Required'),
+          password: Yup.string()
+            .required('Required')
+            .min(8, 'at least 8 characters long')
+            .matches(/[A-Z]/, 'at least one uppercase letter')
+            .matches(/[a-z]/, 'at least one uppercase letter')
+            .matches(/[0-9]/, 'at least one number'),
           avatar: Yup.string().url('Invalid URL').optional(), // Validate avatar if provided
         })}
         onSubmit={async (values: Credentials) => action(values)}

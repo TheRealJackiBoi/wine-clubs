@@ -11,6 +11,7 @@ import {
 import { Metadata } from 'next'
 import ClubCard from '@/components/clubs/ClubCard'
 import { colors } from '@/styles/theme'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'WineClubs',
@@ -20,7 +21,6 @@ const HomePage: FC = async () => {
   return (
     <Box>
       <Divider />
-      {/* Hero Section */}
       <Box
         bg={colors.brandGray}
         color={colors.brandWhite}
@@ -40,18 +40,19 @@ const HomePage: FC = async () => {
             Discover, create, and join wine tasting events with your friends and
             fellow enthusiasts.
           </Text>
-          <Button
-            bg={colors.brandRed}
-            color={colors.brandWhite}
-            _hover={{ bg: colors.brandRedDark }}
-            size='lg'
-            rounded='full'
-          >
-            Explore Events
-          </Button>
+          <Link href='/clubs' passHref>
+            <Button
+              bg={colors.brandRed}
+              color={colors.brandWhite}
+              _hover={{ bg: colors.brandRedDark }}
+              size='lg'
+              rounded='full'
+            >
+              Explore Events
+            </Button>
+          </Link>
         </VStack>
       </Box>
-
       {/* Featured Section */}
       <Box bg={colors.brandGray} p={8}>
         <Heading as='h2' textAlign='center' color={colors.brandWhite} mb={6}>
@@ -72,7 +73,6 @@ const HomePage: FC = async () => {
           />
         </HStack>
       </Box>
-
       {/* Call-to-Action Section */}
       <Box
         bg={colors.brandRed}
@@ -95,7 +95,6 @@ const HomePage: FC = async () => {
           Get Started
         </Button>
       </Box>
-
       {/* Footer */}
       <Box
         bg={colors.brandGray}
