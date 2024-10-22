@@ -9,7 +9,7 @@ export const POST = async (
   const tastingId = params.id
   const body = await request.json()
   const userEmail = body.userEmail as string
-  const rating = parseInt(body.rating)
+  const rating = parseFloat(body.rating)
 
   const tasting = await prisma.tasting.findUnique({
     where: { id: tastingId },

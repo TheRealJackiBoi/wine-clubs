@@ -57,7 +57,7 @@ model Rating {
   id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  rating    Int
+  rating    Float
   createdAt DateTime @default(now())
   tasting   Tasting  @relation(fields: [tastingId], references: [id])
   tastingId String
