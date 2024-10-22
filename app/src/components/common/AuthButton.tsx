@@ -6,11 +6,11 @@ import { TbLogout2 } from 'react-icons/tb'
 import { colors } from '@/styles/theme'
 
 interface AuthButtonProps {
-  session: boolean
+  isUserLoggedIn: boolean
 }
 
-const AuthButton: React.FC<AuthButtonProps> = ({ session }) => {
-  return session ? (
+const AuthButton: React.FC<AuthButtonProps> = ({ isUserLoggedIn }) => {
+  return isUserLoggedIn ? (
     <form
       action={async () => {
         'use server'
@@ -20,7 +20,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({ session }) => {
       <Button
         bg='transparent'
         textColor={colors.brandWhite}
-        _hover={{ bg: 'transparent', textDecoration: 'underline' }}
+        _hover={{ bg: 'transparent' }}
         type='submit'
       >
         <TbLogout2 />

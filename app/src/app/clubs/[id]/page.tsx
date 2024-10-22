@@ -12,6 +12,7 @@ import {
   Divider,
   AvatarGroup,
   Avatar,
+  Flex,
 } from '@chakra-ui/react'
 import { MdInfo } from 'react-icons/md'
 import prisma from '@/lib/prisma'
@@ -74,9 +75,22 @@ export default async function ClubPage({ params }: Params) {
 
   return (
     <Box maxWidth='1200px' margin='auto' padding={8}>
-      <HStack spacing={8} alignItems='flex-start'>
-        <Image src={club.image} alt={club.name} borderRadius='md' />
-        <VStack align='stretch' flex={1}>
+      <Flex
+        direction={{ base: 'column', sm: 'column', md: 'row' }} // Start wrapping earlier at 'sm'
+        gap={8} // Use 'gap' instead of 'spacing' for Flex
+        alignItems='flex-start'
+        wrap='wrap' // Allows wrapping when space is constrained
+      >
+        <Image
+          src={club.image}
+          alt={club.name}
+          borderRadius='md'
+          boxSize={{ base: '100%', md: 'auto' }} // Full width on smaller screens, auto size on larger
+          mb={{ base: 4, md: 0 }} // Adds margin-bottom on smaller screens
+          mx='auto'
+        />
+
+        <VStack align='stretch' flex={1} width='100%'>
           <Heading as='h1' size='2xl'>
             {club.name}
           </Heading>
@@ -114,7 +128,7 @@ export default async function ClubPage({ params }: Params) {
             )}
           </HStack>
         </VStack>
-      </HStack>
+      </Flex>
 
       <Divider my={8} />
 

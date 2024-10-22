@@ -27,8 +27,8 @@ const EventCard = ({
         <Text>{new Date(event.date).toLocaleDateString()}</Text>
       </HStack>
       <HStack>
-        <Avatar name={host.name} src={host.avatar} w='1.5rem' h='1.5rem' />
-        <Text>{host.name}</Text>
+        <Avatar name={host?.name} src={host?.avatar} w='1.5rem' h='1.5rem' />
+        <Text>{host?.name}</Text>
       </HStack>
     </Box>
   )
