@@ -16,6 +16,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import Input from '@/components/formik/FormikInput'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   clubId: string
@@ -23,8 +24,10 @@ type Props = {
 }
 
 const CreateEventModal = ({ clubId, hostId }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const router = useRouter()
   const toast = useToast()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleCreateEvent = async (values: {
     name: string
@@ -48,7 +51,9 @@ const CreateEventModal = ({ clubId, hostId }: Props) => {
           duration: 5000,
           isClosable: true,
         })
+
         onClose() // Close the modal after success
+        router.refresh()
       } else {
         toast({
           title: 'Error',
@@ -59,6 +64,7 @@ const CreateEventModal = ({ clubId, hostId }: Props) => {
         })
       }
     } catch (error) {
+      console.log(error)
       toast({
         title: 'Error',
         description: 'An unexpected error occurred when creating event.',
