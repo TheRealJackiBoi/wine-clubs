@@ -35,7 +35,10 @@ export const POST = async (
     )
   }
 
-  if (!club.members.find((member: User) => member.id === hostId)) {
+  if (
+    !club.members.find((member: User) => member.id === hostId) &&
+    club.clubOwnerId !== hostId
+  ) {
     return Response.json(
       { success: false, message: `User not a member of ${club.name}` },
       {
