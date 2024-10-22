@@ -51,7 +51,8 @@ const Navbar = async () => {
           <Avatar
             name={user?.email}
             src={user?.avatar}
-            style={{ marginRight: '5px' }}
+            mr='2rem'
+            _hover={{ outline: `${colors.brandRed} 2px solid` }}
           />
         </Link>
       </Flex>
