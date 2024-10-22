@@ -24,10 +24,14 @@ const Navbar = async () => {
         <Image
           src='/images/WineClubsLogoGrayBG.png'
           alt='WineClubs Logo'
-          boxSize='100px'
-          marginLeft='2rem'
+          boxSize='50px'
+          ml='2rem'
+          mr='1rem'
         />
       </Link>
+      <Text fontSize='xl' fontWeight='bold'>
+        WineClubs
+      </Text>
       <Spacer />
       <Flex alignItems='center'>
         <AuthButton isUserLoggedIn={isUserLoggedIn} />
