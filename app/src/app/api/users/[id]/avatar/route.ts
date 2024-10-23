@@ -30,7 +30,7 @@ export const POST = async (
 
   const buffer = Buffer.from(img, 'base64')
 
-  const filePath = `${userId}/${Date.now()}_${fileName}.webp`
+  const filePath = `${user.id}/${Date.now()}_${fileName}.webp`
 
   const { data, error } = await supabase.storage
     .from('avatars')
