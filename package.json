@@ -18,9 +18,5 @@
   },
   "pre-push": [
     "check:code"
-  ],
-  "dependencies": {
-    "@auth/core": "^0.37.0",
-    "next-auth": "^4.24.8"
-  }
+  ]
 }
