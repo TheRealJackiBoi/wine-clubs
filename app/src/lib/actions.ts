@@ -5,6 +5,7 @@ import { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { signIn } from '@/auth'
 import { Credentials } from '@/lib/definitions'
+import { revalidatePath } from 'next/cache'
 
 export async function authenticate(
   _prevState: string | undefined,
@@ -108,5 +109,25 @@ export const getAllClubs = async () => {
   } catch (error) {
     console.error('Failed to fetch clubs:', error)
     throw new Error('Failed to fetch clubs.')
+  }
+}
+
+export async function updateUserAvatar(userId: string /*, file: File*/) {
+  try {
+    // 1. Upload the file to your file storage (e.g., S3, Firebase Storage)
+    // 2. Get the URL of the uploaded file
+    // 3. Update the user's avatar URL in your database
+
+    // Update the user's avatar URL in your database
+    // await db.user.update({
+    //   where: { id: userId },
+    //   data: { avatar: newAvatarUrl },
+    // })
+
+    // Revalidate the user's profile page to show the new avatar
+    revalidatePath(`/profile/${userId}`)
+  } catch (error) {
+    console.error('Error updating user avatar:', error)
+    throw new Error('Failed to update user avatar')
   }
 }
