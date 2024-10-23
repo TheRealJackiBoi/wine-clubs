@@ -4,7 +4,6 @@ import { useState, useRef } from 'react'
 import { Avatar, Button, Box, useToast } from '@chakra-ui/react'
 import { colors } from '@/styles/theme'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 
 interface EditableAvatarProps {
   name: string
@@ -18,7 +17,6 @@ export default function EditableAvatar({
   src,
 }: EditableAvatarProps) {
   const toast = useToast()
-  const router = useRouter()
 
   const [avatarSrc, setAvatarSrc] = useState(src)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -47,6 +45,7 @@ export default function EditableAvatar({
             duration: 5000,
             isClosable: true,
           })
+          setAvatarSrc(data.url)
         } else {
           toast({
             title: 'Error',

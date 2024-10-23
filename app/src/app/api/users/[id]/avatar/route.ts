@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma'
-import supabase from '@/lib/supabaseClient'
+import { supabaseServer } from '@/lib/supabaseClient'
 export const dynamic = 'force-dynamic'
 
 export const POST = async (
@@ -10,8 +10,6 @@ export const POST = async (
   const body = await request.json()
   const img = body.img
   const fileName = body.fileName as string
-
-  console.log(img)
 
   const user = await prisma.user.findUnique({
     where: {
@@ -34,12 +32,12 @@ export const POST = async (
 
   const filePath = `${user.id}/${Date.now()}_${fileName}.webp`
 
-  const { data, error } = await supabase.storage
+  const { data, error } = await supabaseServer.storage
     .from('avatars')
     .upload(filePath, buffer, { contentType: 'image/webp' })
 
   if (error || !data || !data.fullPath) {
-    console.error(`Failed to upload image with name ${fileName}`, error)
+    console.error(`Failed to upload image with name ${fileName}`, error || '')
     return Response.json(
       {
         success: false,
@@ -49,20 +47,36 @@ export const POST = async (
     )
   }
 
-  // TODO: update users image url
+  const { data: urlData } = supabaseServer.storage
+    .from('avatars')
+    .getPublicUrl(data.path)
+
+  if (!urlData || !urlData.publicUrl) {
+    console.error(`Failed to upload image with name ${fileName}`, error || '')
+    return Response.json(
+      {
+        success: false,
+        message: `Failed to upload image with name ${fileName}`,
+      },
+      { status: 500 },
+    )
+  }
+  console.log(urlData.publicUrl)
+
   try {
     await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        avatar: data.fullPath as string,
+        avatar: urlData.publicUrl,
       },
     })
     return Response.json(
       {
         success: true,
         message: `Avatar added to user ${user.name}`,
+        url: urlData.publicUrl,
       },
       { status: 201 },
     )
