@@ -11,6 +11,8 @@ export const POST = async (
   const img = body.img
   const fileName = body.fileName as string
 
+  console.log(img)
+
   const user = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -26,15 +28,15 @@ export const POST = async (
       { status: 404 },
     )
   }
-  // TODO: post image to supabase
 
-  const buffer = Buffer.from(img, 'base64')
+  const base64Data = img.includes('base64,') ? img.split('base64,')[1] : img
+  const buffer = Buffer.from(base64Data, 'base64')
 
   const filePath = `${user.id}/${Date.now()}_${fileName}.webp`
 
   const { data, error } = await supabase.storage
     .from('avatars')
-    .upload(filePath, buffer)
+    .upload(filePath, buffer, { contentType: 'image/webp' })
 
   if (error || !data || !data.fullPath) {
     console.error(`Failed to upload image with name ${fileName}`, error)
