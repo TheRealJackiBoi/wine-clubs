@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Divider,
   Heading,
@@ -12,11 +11,20 @@ import { colors } from '@/styles/theme'
 import { getUserById, getUserClubs, getUserEvents } from '@/lib/actions'
 import EventCard from '@/components/events/EventCard'
 import ClubsGrid from '@/components/clubs/ClubsGrid'
+import EditableAvatar from '@/components/profile/EditableAvatar'
 
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const user = await getUserById(params.id)
   const userClubs = await getUserClubs(params.id)
   const userEvents = await getUserEvents(params.id)
+
+  async function handleAvatarUpdate(formData: FormData) {
+    'use server'
+    const file = formData.get('avatar') as File
+    if (file) {
+      //await updateUserAvatar(user.id, file)
+    }
+  }
 
   if (!user) {
     return (
@@ -40,7 +48,17 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
       <Box bg={colors.brandGray} color={colors.brandWhite} minH='100vh' p={6}>
         <VStack spacing={8} align='stretch'>
           <HStack spacing={8}>
-            <Avatar size='2xl' name={user.name} src={user.avatar} />
+            <form action={handleAvatarUpdate}>
+              <EditableAvatar
+                name={user.name}
+                src={user.avatar}
+                onAvatarChange={(file) => {
+                  const formData = new FormData()
+                  formData.append('avatar', file)
+                  handleAvatarUpdate(formData)
+                }}
+              />
+            </form>
             <VStack align='start' spacing={2}>
               <Heading as='h1' size='2xl'>
                 {user.name}
