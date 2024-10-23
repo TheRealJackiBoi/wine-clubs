@@ -61,6 +61,11 @@ export default async function EventPage({ params }: Params) {
   const isSignedUp = event.signUps.some(
     (member) => member.email === session.user!.email,
   )
+  const isHost = event.host.email === session.user!.email
+  const isEventToday = DateTime.fromJSDate(event.date).hasSame(
+    DateTime.now(),
+    'day',
+  )
 
   const wines = await prisma.wine.findMany()
   return (
@@ -116,6 +121,9 @@ export default async function EventPage({ params }: Params) {
             <Tasting
               key={tasting.id}
               tasting={tasting}
+              isSignedUp={isSignedUp}
+              isHost={isHost}
+              isEventToday={isEventToday}
               userEmail={session.user!.email as string}
             />
           ))}
