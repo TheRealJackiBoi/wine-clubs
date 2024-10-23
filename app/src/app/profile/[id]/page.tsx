@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Divider,
   Heading,
@@ -12,6 +11,7 @@ import { colors } from '@/styles/theme'
 import { getUserById, getUserClubs, getUserEvents } from '@/lib/actions'
 import EventCard from '@/components/events/EventCard'
 import ClubsGrid from '@/components/clubs/ClubsGrid'
+import EditableAvatar from '@/components/profile/EditableAvatar'
 
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const user = await getUserById(params.id)
@@ -40,7 +40,11 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
       <Box bg={colors.brandGray} color={colors.brandWhite} minH='100vh' p={6}>
         <VStack spacing={8} align='stretch'>
           <HStack spacing={8}>
-            <Avatar size='2xl' name={user.name} src={user.avatar} />
+            <EditableAvatar
+              name={user.name}
+              userId={user.id}
+              src={user.avatar}
+            />
             <VStack align='start' spacing={2}>
               <Heading as='h1' size='2xl'>
                 {user.name}
