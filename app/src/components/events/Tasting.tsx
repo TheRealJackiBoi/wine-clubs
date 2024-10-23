@@ -9,8 +9,14 @@ import { Role } from '@prisma/client'
 const Tasting = ({
   tasting,
   userEmail,
+  isSignedUp,
+  isHost,
+  isEventToday,
 }: {
   userEmail: string
+  isSignedUp: boolean
+  isHost: boolean
+  isEventToday: boolean
   tasting: {
     wine: {
       id: string
@@ -63,9 +69,11 @@ const Tasting = ({
             <MdStar />
             <Text>{averageRating}</Text>
           </HStack>
-          {isRated || (
-            <RateWineModal tastingId={tasting.id} userEmail={userEmail} />
-          )}
+          {(isSignedUp || isHost) &&
+            isEventToday &&
+            (isRated || (
+              <RateWineModal tastingId={tasting.id} userEmail={userEmail} />
+            ))}
         </HStack>
       </CardBody>
     </Card>
