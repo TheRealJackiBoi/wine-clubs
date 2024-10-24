@@ -75,9 +75,9 @@ const LeaveClubModal = ({ clubId, userId }: Props) => {
   return (
     <>
       <Button
-        bg={colors.brandRed}
         leftIcon={<MdInfo />}
         onClick={onOpen}
+        bg={colors.brandRed}
         textColor={colors.brandWhite}
         _hover={{ bg: colors.brandRedDark }}
       >
@@ -85,11 +85,21 @@ const LeaveClubModal = ({ clubId, userId }: Props) => {
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          bg={colors.brandGray}
+          color={colors.brandWhite}
+          pb='0.5rem'
+          maxW={{ base: '80vw', sm: '60vw', md: '30vw', lg: '30vw' }}
+        >
           <ModalHeader>Club Options</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Button colorScheme='red' onClick={handleLeaveClub}>
+            <Button
+              onClick={handleLeaveClub}
+              bg={colors.brandRed}
+              textColor={colors.brandWhite}
+              _hover={{ bg: colors.brandRedDark }}
+            >
               Leave Club
             </Button>
           </ModalBody>
