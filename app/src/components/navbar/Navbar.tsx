@@ -19,16 +19,17 @@ import { getUser } from '@/lib/actions'
 const Navbar = async () => {
   const session = await auth()
   const isUserLoggedIn = !!session?.user
-  if (!isUserLoggedIn) return null
-  const user = await getUser(session!.user!.email!)
+
+  // If user is logged in, fetch user data
+  const user = isUserLoggedIn ? await getUser(session!.user!.email!) : null
 
   return (
     <Flex
       bg={colors.brandGray}
       color={colors.brandWhite}
-      p={4}
       alignItems='center'
-      boxShadow='md'
+      mb='2rem'
+      pb='1rem'
     >
       <Link href={'/'} passHref>
         <Image
@@ -60,52 +61,70 @@ const Navbar = async () => {
             <Text>Clubs</Text>
           </Button>
         </Link>
-        <Menu>
-          <MenuButton>
-            <Avatar
-              name={user?.email}
-              src={user?.avatar}
-              mr='2rem'
-              _hover={{ outline: `${colors.brandRed} 2px solid` }}
-              cursor='pointer'
-            />
-          </MenuButton>
-          <MenuList bg={colors.brandRed} color={colors.brandWhite}>
-            <Link href={`/profile/${user?.id}`} passHref>
-              <MenuItem
-                icon={<MdPerson />}
-                bg={colors.brandRed}
-                _hover={{ bg: colors.brandRedDark }}
-              >
-                Profile
-              </MenuItem>
-            </Link>
-            <Link href='/settings' passHref>
-              <MenuItem
-                icon={<MdSettings />}
-                bg={colors.brandRed}
-                _hover={{ bg: colors.brandRedDark }}
-              >
-                Settings
-              </MenuItem>
-            </Link>
-            <form
-              action={async () => {
-                'use server'
-                await signOut()
-              }}
+        {isUserLoggedIn ? (
+          <Menu>
+            <MenuButton>
+              <Avatar
+                name={user?.email}
+                src={user?.avatar}
+                mr='2rem'
+                cursor='pointer'
+              />
+            </MenuButton>
+            <MenuList
+              bg={colors.brandRed}
+              color={colors.brandWhite}
+              mr='1rem'
+              border='none'
             >
-              <MenuItem
-                bg={colors.brandRed}
-                _hover={{ bg: colors.brandRedDark }}
-                icon={<MdLogout />}
-                type='submit'
+              <Link href={`/profile/${user?.id}`} passHref>
+                <MenuItem
+                  icon={<MdPerson />}
+                  bg={colors.brandRed}
+                  _hover={{ bg: colors.brandRedDark }}
+                >
+                  Profile
+                </MenuItem>
+              </Link>
+              <Link href='/settings' passHref>
+                <MenuItem
+                  icon={<MdSettings />}
+                  bg={colors.brandRed}
+                  _hover={{ bg: colors.brandRedDark }}
+                >
+                  Settings
+                </MenuItem>
+              </Link>
+              <form
+                action={async () => {
+                  'use server'
+                  await signOut()
+                }}
               >
-                Log out
-              </MenuItem>
-            </form>
-          </MenuList>
-        </Menu>
+                <MenuItem
+                  bg={colors.brandRed}
+                  _hover={{ bg: colors.brandRedDark }}
+                  icon={<MdLogout />}
+                  type='submit'
+                >
+                  Log out
+                </MenuItem>
+              </form>
+            </MenuList>
+          </Menu>
+        ) : (
+          // Show "Login" button when user is not logged in
+          <Link href='/login' passHref>
+            <Button
+              bg={colors.brandRed}
+              textColor={colors.brandWhite}
+              _hover={{ bg: colors.brandRedDark }}
+              mr='2rem'
+            >
+              Log in
+            </Button>
+          </Link>
+        )}
       </Flex>
     </Flex>
   )

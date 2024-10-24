@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: 'WineClubs',
 }
 
-const HomePage: FC = async () => {
+const HomePage: FC = () => {
   return (
     <Box>
       <Divider />

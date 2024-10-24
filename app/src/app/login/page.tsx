@@ -18,7 +18,7 @@ const LoginPage: FC = () => {
   return (
     <>
       <Text fontSize='2em' mb={4}>
-        Login
+        Log in
       </Text>
       {code === 'CredentialsSignin' && (
         <>
@@ -58,7 +58,7 @@ const LoginPage: FC = () => {
             name='password'
             required
           />
-          <Button>Login</Button>
+          <Button>Log in</Button>
           <Text mt={4}>
             Don’t have an account?{' '}
             <Link as={NextLink} href='/signup' color='blue.500'>
