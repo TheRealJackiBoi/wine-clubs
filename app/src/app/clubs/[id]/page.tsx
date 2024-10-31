@@ -5,7 +5,6 @@ import {
   Heading,
   Text,
   Image,
-  Button,
   VStack,
   HStack,
   SimpleGrid,
@@ -14,7 +13,6 @@ import {
   Avatar,
   Flex,
 } from '@chakra-ui/react'
-import { MdInfo } from 'react-icons/md'
 import prisma from '@/lib/prisma'
 import { notFound, redirect } from 'next/navigation'
 import { auth } from '@/auth'
@@ -23,6 +21,7 @@ import { DateTime } from 'luxon'
 import LeaveClubModal from '@/components/clubs/LeaveClubModal'
 import CreateEventModal from '@/components/clubs/CreateEventModal'
 import EventCard from '@/components/events/EventCard'
+import AddMemberModal from '@/components/clubs/AddMemberModal'
 
 type Params = {
   params: {
@@ -60,8 +59,12 @@ export default async function ClubPage({ params }: Params) {
     },
   })
 
-  const isOwner = user!.ownedWineClubs.find((club) => club.id === id)
-  const isMember = user!.wineClubs.find((club) => club.id === id)
+  if (!user) {
+    return notFound()
+  }
+
+  const isOwner = user.ownedWineClubs.find((club) => club.id === id)
+  const isMember = user.wineClubs.find((club) => club.id === id)
   const now = DateTime.now().startOf('day')
 
   const findTodaysEvents = (event: Event) =>
@@ -104,9 +107,12 @@ export default async function ClubPage({ params }: Params) {
             <LeaveClubModal userId={user!.id} clubId={id} />
           )}
 
-          <Heading as='h2' size='xl' mb={4} mt={8}>
-            Members
-          </Heading>
+          <HStack>
+            <Heading as='h2' size='xl' mb={4} mt={8}>
+              Members
+            </Heading>
+            {isOwner && <AddMemberModal clubId={club.id} userId={user.id} />}
+          </HStack>
           <HStack justify='space-between' mb={4}>
             <AvatarGroup size='md' max={5}>
               {club.members.map((member) => (
@@ -117,15 +123,6 @@ export default async function ClubPage({ params }: Params) {
                 />
               ))}
             </AvatarGroup>
-            {isOwner && (
-              <Button
-                leftIcon={<MdInfo />}
-                colorScheme='blue'
-                // onClick={handleAddMember}
-              >
-                Add Member
-              </Button>
-            )}
           </HStack>
         </VStack>
       </Flex>
