@@ -18,6 +18,7 @@ model WineClub {
   members     User[]    @relation(name: "clubMembers")
   createdAt   DateTime  @default(now())
   events      Event[]
+  invitaions  Notification[]
 }
 
 model Event {
@@ -63,6 +64,24 @@ model Rating {
   tastingId String
 }
 
+model Notification {
+  id        String @id @default(uuid())
+  message   String @default("")
+  type      NotificationType
+  createdAt DateTime @default(now())
+  isSeen    Boolean @default(false)
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  club     WineClub? @relation(fields: [clubId], references: [id])
+  clubId   String?
+  endDate  DateTime?
+}
+
+enum NotificationType {
+  INVITATION
+  MESSAGE
+}
+
 model User {
   id             String     @id @default(uuid())
   name           String
@@ -75,6 +94,7 @@ model User {
   ratings        Rating[]
   events         Event[]    @relation("signUps")
   hostEvents     Event[]    @relation("eventHost")
+  notifications  Notification[]
 }
 
 enum Role {
