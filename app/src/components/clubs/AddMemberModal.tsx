@@ -30,24 +30,19 @@ const AddMemberModal = ({ clubId, userId }: Props) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const handleCreateEvent = async (values: {
-    name: string
-    date: string
-    description: string
-    location: string
-  }) => {
+  const handleCreateEvent = async (values: { email: string }) => {
     try {
       console.log('before')
       const result = await axios.post<{ success: boolean; message: string }>(
-        `/api/clubs/${clubId}/events`,
+        `/api/clubs/${clubId}/invite`,
         { userId, values },
       ) // Replace with actual API call to create event
       console.log(result)
       const data = result.data
       if (data.success) {
         toast({
-          title: 'Event Created',
-          description: 'Your event has been successfully created.',
+          title: 'Sent Invitation',
+          description: `An invitaion was send to ${values.email}`,
           status: 'success',
           duration: 5000,
           isClosable: true,
@@ -58,7 +53,8 @@ const AddMemberModal = ({ clubId, userId }: Props) => {
       } else {
         toast({
           title: 'Error',
-          description: data.message || 'Failed to create event',
+          description:
+            data.message || `Failed to send an invitation to ${values.email}`,
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -68,7 +64,7 @@ const AddMemberModal = ({ clubId, userId }: Props) => {
       console.log(error)
       toast({
         title: 'Error',
-        description: 'An unexpected error occurred when creating event.',
+        description: 'An unexpected error occurred when sending invitation.',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -94,10 +90,7 @@ const AddMemberModal = ({ clubId, userId }: Props) => {
           <ModalBody>
             <Formik
               initialValues={{
-                name: '',
-                date: new Date().toISOString().slice(0, 16),
-                description: '',
-                location: '',
+                email: '',
               }}
               validationSchema={Yup.object({
                 email: Yup.string()
