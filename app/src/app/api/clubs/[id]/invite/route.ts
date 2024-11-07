@@ -86,7 +86,7 @@ export const POST = async (
         type: 'INVITATION',
         user: {
           connect: {
-            id: userId,
+            id: userToAdd.id,
           },
         },
         club: {

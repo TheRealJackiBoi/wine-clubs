@@ -111,7 +111,13 @@ export default async function ClubPage({ params }: Params) {
             <Heading as='h2' size='xl' mb={4} mt={8}>
               Members
             </Heading>
-            {isOwner && <AddMemberModal clubId={club.id} userId={user.id} />}
+            {isOwner && (
+              <AddMemberModal
+                clubId={club.id}
+                clubName={club.name}
+                userId={user.id}
+              />
+            )}
           </HStack>
           <HStack justify='space-between' mb={4}>
             <AvatarGroup size='md' max={5}>

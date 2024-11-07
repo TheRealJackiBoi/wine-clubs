@@ -22,17 +22,17 @@ import { useRouter } from 'next/navigation'
 type Props = {
   clubId: string
   userId: string
+  clubName: string
 }
 
-const AddMemberModal = ({ clubId, userId }: Props) => {
+const AddMemberModal = ({ clubId, userId, clubName }: Props) => {
   const router = useRouter()
   const toast = useToast()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const handleCreateEvent = async (values: { email: string }) => {
+  const handleAddMember = async (values: { email: string }) => {
     try {
-      console.log('before')
       const result = await axios.post<{ success: boolean; message: string }>(
         `/api/clubs/${clubId}/invite`,
         { userId, values },
@@ -85,7 +85,7 @@ const AddMemberModal = ({ clubId, userId }: Props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create New Event</ModalHeader>
+          <ModalHeader>Add Member to {clubName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Formik
@@ -97,7 +97,7 @@ const AddMemberModal = ({ clubId, userId }: Props) => {
                   .email('Not a valid email')
                   .required('Email is required'),
               })}
-              onSubmit={handleCreateEvent}
+              onSubmit={handleAddMember}
             >
               {({ isSubmitting }) => (
                 <Form>
