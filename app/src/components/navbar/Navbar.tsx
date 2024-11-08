@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { MdLogout, MdPerson, MdSettings, MdTapas } from 'react-icons/md'
 import { auth, signOut } from '@/auth'
 import { getUser } from '@/lib/actions'
+import NotificationsDropdown from './NotificationsDropdown'
 
 const Navbar = async () => {
   const session = await auth()
@@ -62,56 +63,59 @@ const Navbar = async () => {
           </Button>
         </Link>
         {isUserLoggedIn ? (
-          <Menu>
-            <MenuButton>
-              <Avatar
-                name={user?.email}
-                src={user?.avatar}
-                mr='2rem'
-                cursor='pointer'
-              />
-            </MenuButton>
-            <MenuList
-              bg={colors.brandRed}
-              color={colors.brandWhite}
-              mr='1rem'
-              border='none'
-            >
-              <Link href={`/profile/${user?.id}`} passHref>
-                <MenuItem
-                  icon={<MdPerson />}
-                  bg={colors.brandRed}
-                  _hover={{ bg: colors.brandRedDark }}
-                >
-                  Profile
-                </MenuItem>
-              </Link>
-              <Link href='/settings' passHref>
-                <MenuItem
-                  icon={<MdSettings />}
-                  bg={colors.brandRed}
-                  _hover={{ bg: colors.brandRedDark }}
-                >
-                  Settings
-                </MenuItem>
-              </Link>
-              <form
-                action={async () => {
-                  'use server'
-                  await signOut()
-                }}
+          <>
+            <NotificationsDropdown notifications={user?.notifications ?? []} />
+            <Menu>
+              <MenuButton>
+                <Avatar
+                  name={user?.email}
+                  src={user?.avatar}
+                  mr='2rem'
+                  cursor='pointer'
+                />
+              </MenuButton>
+              <MenuList
+                bg={colors.brandRed}
+                color={colors.brandWhite}
+                mr='1rem'
+                border='none'
               >
-                <MenuItem
-                  bg={colors.brandRed}
-                  _hover={{ bg: colors.brandRedDark }}
-                  icon={<MdLogout />}
-                  type='submit'
+                <Link href={`/profile/${user?.id}`} passHref>
+                  <MenuItem
+                    icon={<MdPerson />}
+                    bg={colors.brandRed}
+                    _hover={{ bg: colors.brandRedDark }}
+                  >
+                    Profile
+                  </MenuItem>
+                </Link>
+                <Link href='/settings' passHref>
+                  <MenuItem
+                    icon={<MdSettings />}
+                    bg={colors.brandRed}
+                    _hover={{ bg: colors.brandRedDark }}
+                  >
+                    Settings
+                  </MenuItem>
+                </Link>
+                <form
+                  action={async () => {
+                    'use server'
+                    await signOut()
+                  }}
                 >
-                  Log out
-                </MenuItem>
-              </form>
-            </MenuList>
-          </Menu>
+                  <MenuItem
+                    bg={colors.brandRed}
+                    _hover={{ bg: colors.brandRedDark }}
+                    icon={<MdLogout />}
+                    type='submit'
+                  >
+                    Log out
+                  </MenuItem>
+                </form>
+              </MenuList>
+            </Menu>
+          </>
         ) : (
           // Show "Login" button when user is not logged in
           <Link href='/login' passHref>

@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/lib/prisma'
-import { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { signIn } from '@/auth'
 import { Credentials } from '@/lib/definitions'
@@ -76,11 +75,18 @@ export async function getUserEvents(userId: string) {
   })
 }
 
-export async function getUser(email: string): Promise<User | null> {
+export async function getUser(email: string) {
   try {
     return await prisma.user.findFirst({
       where: {
         email,
+      },
+      include: {
+        notifications: {
+          include: {
+            club: true,
+          },
+        },
       },
     })
   } catch (error) {
