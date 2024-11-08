@@ -108,23 +108,25 @@ const NotificationsDropdown = ({ notifications }: Props) => {
                 <Box fontSize='sm'>{notification.message}</Box>
                 {!notification.isSeen && (
                   <HStack>
-                    <Button
-                      colorScheme='green'
-                      size='xs'
-                      onClick={
-                        notification.type === NotificationType.INVITATION
-                          ? () =>
-                              handleAccept(
-                                notification.clubId!,
-                                notification.userId,
-                                notification.id,
-                                notification.club!.name,
-                              )
-                          : () => {}
-                      }
-                    >
-                      Accept
-                    </Button>
+                    {notification.type === NotificationType.INVITATION && (
+                      <Button
+                        colorScheme='green'
+                        size='xs'
+                        onClick={
+                          notification.type === NotificationType.INVITATION
+                            ? () =>
+                                handleAccept(
+                                  notification.clubId!,
+                                  notification.userId,
+                                  notification.id,
+                                  notification.club!.name,
+                                )
+                            : () => {}
+                        }
+                      >
+                        Accept
+                      </Button>
+                    )}
                     <Badge colorScheme='red' ml='1'>
                       New
                     </Badge>
