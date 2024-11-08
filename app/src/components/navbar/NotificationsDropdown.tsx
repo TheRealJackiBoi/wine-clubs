@@ -3,6 +3,8 @@ import { colors } from '@/styles/theme'
 import {
   Badge,
   Box,
+  Button,
+  HStack,
   IconButton,
   Menu,
   MenuButton,
@@ -96,17 +98,6 @@ const NotificationsDropdown = ({ notifications }: Props) => {
               key={notification.id}
               disabled={!notification.isSeen}
               bg={colors.brandGray}
-              onClick={
-                notification.type === NotificationType.INVITATION
-                  ? () =>
-                      handleAccept(
-                        notification.clubId!,
-                        notification.userId,
-                        notification.id,
-                        notification.club!.name,
-                      )
-                  : () => {}
-              }
             >
               <Box>
                 <Box fontWeight='bold'>
@@ -116,9 +107,28 @@ const NotificationsDropdown = ({ notifications }: Props) => {
                 </Box>
                 <Box fontSize='sm'>{notification.message}</Box>
                 {!notification.isSeen && (
-                  <Badge colorScheme='red' ml='1'>
-                    New
-                  </Badge>
+                  <HStack>
+                    <Button
+                      colorScheme='green'
+                      size='xs'
+                      onClick={
+                        notification.type === NotificationType.INVITATION
+                          ? () =>
+                              handleAccept(
+                                notification.clubId!,
+                                notification.userId,
+                                notification.id,
+                                notification.club!.name,
+                              )
+                          : () => {}
+                      }
+                    >
+                      Accept
+                    </Button>
+                    <Badge colorScheme='red' ml='1'>
+                      New
+                    </Badge>
+                  </HStack>
                 )}
               </Box>
             </MenuItem>

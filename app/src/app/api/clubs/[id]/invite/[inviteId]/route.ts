@@ -86,6 +86,14 @@ export const POST = async (
         },
       },
     })
+    await prisma.notification.update({
+      where: {
+        id: notificationId,
+      },
+      data: {
+        isSeen: true,
+      },
+    })
     return Response.json(
       { success: true, message: `Joined ${club.name}` },
       { status: 200 },
