@@ -47,7 +47,7 @@ const NotificationsDropdown = ({ notifications }: Props) => {
     try {
       const result = await axios.post<{ success: boolean; message: string }>(
         `/api/clubs/${clubId}/invite/${notificationId}`,
-        { userId },
+        { userId: userId },
       )
       console.log(result)
       const data = result.data
