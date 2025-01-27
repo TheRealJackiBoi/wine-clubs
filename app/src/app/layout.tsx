@@ -7,7 +7,7 @@ import Navbar from '@/components/navbar/Navbar'
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='da'>
-      <body>
+      <body className='bgGray'>
         <Providers>
           <Box
             pt={10}

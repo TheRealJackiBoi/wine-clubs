@@ -11,7 +11,7 @@ export async function authenticate(
   data: Credentials,
 ) {
   try {
-    await signIn('credentials', { ...data, callbackUrl: '/protected-page' })
+    await signIn('credentials', { ...data, redirectTo: '/clubs' })
   } catch (error) {
     if ((error as Error).message.includes('CredentialsSignin')) {
       return 'CredentialsSignin'
